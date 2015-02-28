@@ -1,0 +1,16 @@
+<#assign decorator=JspTaglibs["http://www.opensymphony.com/sitemesh/decorator"]>
+<#include "../ftl/admin/macros/helpers.ftl" />
+<!doctype html>
+<html>
+	<head>
+		<#include "./adminShared/commonHeader.html"/>
+		<link rel="stylesheet" href="${staticFileRoot}/admin/css/matrix-login.css" />
+		${head}
+	</head>
+
+	<body class="loginpage">
+	${body}
+	<#include "./adminShared/commonFooter.html"/>
+	<script src="${staticFileRoot}/admin/js/matrix.login.js"></script> 
+	</body>
+</html>

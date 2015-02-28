@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<decorators defaultdir="/WEB-INF/decorators">
+	<decorator name="merchantLoggedin" page="merchantLoggedin.html">
+	</decorator>
+	<decorator name="merchantUnlogged" page="merchantUnlogged.html">
+	</decorator>
+	<decorator name="adminLoggedin" page="adminLoggedin.html">
+	</decorator>
+	<decorator name="adminUnlogged" page="adminUnlogged.html">
+	</decorator>
+</decorators>

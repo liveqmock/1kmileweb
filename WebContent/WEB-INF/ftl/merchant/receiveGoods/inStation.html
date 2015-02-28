@@ -1,0 +1,80 @@
+﻿<#import "/spring.ftl" as spring /> 
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"]/>
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" /> 
+<#include "/WEB-INF/ftl/merchant/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body>
+	<div class="path">
+		<a href="<@l '/merchant/index'/>">首页</a> <i>&gt;</i> <span>代收货</span> <i>&gt;</i>
+		<span>包裹入站</span>
+	</div>
+
+	<div class="content">
+		<div class="conditionbox">
+			<ul>
+				<li><label class="lb6">快递单号：</label>
+					<div class="iptbox">
+						<input id="expressNo" class="ipt180" type="text" value="" />
+					</div> 
+					<a id="handInStation" class="sbtn btn-c" href="javascript:;"><span>手动入站</span></a>
+					<p class="psinfo">无法扫描快递单入站？手动输入快递单号进行入站</p></li>
+			</ul>
+			<ul>
+				<li><label class="lb6">物流公司：</label>
+					<div class="iptbox">
+						<select name="expressCompanyCode" id="expressCompanyCode">
+							<option value="-1" selected="selected">请选择</option>
+							<#if expressCompanyList?? && expressCompanyList?size gt 0>
+								<#list expressCompanyList as expressCompany>
+									<option value="${expressCompany.code}">${expressCompany.cnValue}</option>
+								</#list>
+							</#if>
+						</select>
+					</div></li>
+				<li><label class="lb6">手机后四位：</label>
+					<div class="iptbox">
+						<input class="ipt150" type="text" id="receiveCellphone" value="" maxlength="4"/>
+					</div> <a class="sbtn btn-b ml20" href="javascript:;" id="search"><span>查询</span></a>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="btnbox">
+				<!-- <a class="sbtn btn-c" href="javascript:;"><span>批量入站</span></a> -->
+		</div>
+		
+		<div class="resultlist tablestyle1">
+			<table>
+				<thead>
+					<tr>
+						<th width="70">
+							<div class="chk"><input type="checkbox" />全选</div>
+						</th>
+						<th width="155"><div>快递单号</div></th>
+						<th width="110"><div>收件人</div></th>
+						<th width="200"><div>手机号码</div></th>
+						<th width="220">
+							<div>物流公司</div>
+						</th>
+						<th><div>包裹状态</div></th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="btnbox pagebox"></div>
+	</div>
+
+<content tag="beforeBodyEnd">
+	<script type="text/javascript" src="${staticFileRoot}/plugin/howler/howler.min.js"></script>
+	<script type="text/javascript" src="${staticFileRoot}/merchant/js/receiveGoods/inStation.js"></script>
+</content>
+<content tag="express">cur</content>
+</body>
+</html>

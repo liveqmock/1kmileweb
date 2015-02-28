@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+
+	<property resource="env.properties" />
+	<!--日志文件存入路径 -->
+
+	<property name="PROJECT_NAME" value="1kmileweb" />
+
+	<!-- 存放日志文件的路径 -->
+	<property name="LOG_HOME_BIZ"
+		value="${LOG_HOME}/${PROJECT_NAME}/${PROJECT_NAME}/biz" />
+	<property name="LOG_HOME_SERVICE"
+		value="${LOG_HOME}/${PROJECT_NAME}/${PROJECT_NAME}/service" />
+	<property name="LOG_HOME_ERROR"
+		value="${LOG_HOME}/${PROJECT_NAME}/${PROJECT_NAME}/error" />
+	<property name="LOG_HOME_PERFORMANCE"
+		value="${LOG_HOME}/${PROJECT_NAME}/${PROJECT_NAME}/performance" />
+	<substitutionProperty name="LOG_HOME_CONTROLLER"
+		value="${LOG_HOME}/${PROJECT_NAME}/${PROJECT_NAME}/controller" />
+
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+	</appender>
+
+	<!-- biz log -->
+	<appender name="bizRolling"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME_BIZ}/1kmileweb-${bySecond}.txt</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME_BIZ}/1kmileweb-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+			<immediateFlush>false</immediateFlush>
+		</encoder>
+	</appender>
+
+
+	<!-- service -->
+	<appender name="serviceRolling"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME_SERVICE}/1kmileweb-${bySecond}.txt</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME_SERVICE}/1kmileweb-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+			<immediateFlush>false</immediateFlush>
+		</encoder>
+	</appender>
+
+
+	<!-- controller -->
+	<appender name="controllerRolling"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME_CONTROLLER}/1kmileweb-${bySecond}.txt</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME_CONTROLLER}/1kmileweb-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+			<immediateFlush>false</immediateFlush>
+		</encoder>
+	</appender>
+
+	<!-- error -->
+	<appender name="errorRolling"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<file>${LOG_HOME_ERROR}/1kmileweb-${bySecond}.txt</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME_ERROR}/1kmileweb-%d{yyyy-MM-dd}.%i.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+			</pattern>
+			<immediateFlush>false</immediateFlush>
+		</encoder>
+	</appender>
+
+	<appender name="performanceServiceinLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME_PERFORMANCE}/1kmileweb_servicein_digest.log
+		</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME_PERFORMANCE}/1kmileweb_servicein_digest-%d{yyyy-MM-dd}.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}]%msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="performanceServiceoutLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_HOME_PERFORMANCE}/1kmileweb_serviceout_digest.log
+		</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME_PERFORMANCE}/1kmileweb_serviceout_digest-%d{yyyy-MM-dd}.zip
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}]%msg%n</pattern>
+		</encoder>
+	</appender>
+
+
+	<!-- biz -->
+	<logger name="1kmileweb.biz" level="${LOG_LEVEL}">
+		<appender-ref ref="bizRolling" />
+	</logger>
+	<!-- service -->
+	<logger name="1kmileweb.service" level="${LOG_LEVEL}">
+		<appender-ref ref="serviceRolling" />
+	</logger>
+	<!-- controller -->
+	<logger name="1kmileweb.controller" level="INFO">
+		<appender-ref ref="controllerRolling" />
+	</logger>
+	<!-- error -->
+	<root level="${LOG_LEVEL}">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="bizRolling" />
+	</root>
+
+	<!-- performance -->
+	<logger name="1kmileweb.performance.in" level="INFO" additivity="false">
+		<appender-ref ref="performanceServiceinLog" />
+	</logger>
+	<logger name="1kmileweb.performance.out" level="INFO"
+		additivity="false">
+		<appender-ref ref="performanceServiceoutLog" />
+	</logger>
+	<logger name="1kmileweb.common" level="${LOG_LEVEL}">
+	</logger>
+
+	<logger name="org.springframework" level="${LOG_LEVEL}"></logger>
+	<logger name="org.jboss" level="${LOG_LEVEL}"></logger>
+	<logger name="org.apache.activemq" level="${LOG_LEVEL}"></logger>
+
+</configuration>

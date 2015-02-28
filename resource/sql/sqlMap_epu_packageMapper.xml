@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="packageMapper">
+
+    <!-- 新增包裹信息 -->
+    <insert id="insertPackage">
+        <![CDATA[
+    	INSERT
+    	INTO epu_t_package
+    		(
+    		station_id,
+    		express_no,
+    		express_company_code,
+    		receive_name, 
+    		receive_cellphone, 
+    		receive_fixphone,
+    		receive_email,
+			package_status,
+			pickup_code
+    		)
+    	VALUES
+    		(
+    		:stationId, 
+    		:expressNo, 
+    		:expressCompanyCode,
+    	    :receiveName, 
+    	    :receiveCellphone, 
+    	    :receiveFixphone, 
+    	    :receiveEmail,
+			:packageStatus,
+			:pickupCode
+    	      )
+		]]>
+    </insert>
+    
+	<!-- 包裹入站时更新包裹信息 -->
+	<update id="updatePackageInStation">
+        <![CDATA[
+    	UPDATE
+    		epu_t_package p
+		SET 
+			p.in_time = :inTime,
+			p.out_end_time = :outEndTime,
+			p.package_status = :packageStatus
+		WHERE
+			<#if packageId?exists && packageId != -1>
+				p.package_id = :packageId
+			<#else>
+				p.package_id = -1
+			</#if>
+		]]>
+	</update>
+	
+	<!-- 包裹出站时更新包裹信息 -->
+	<update id="updatePackageOutStation">
+        <![CDATA[
+    	UPDATE
+    		epu_t_package p
+		SET 
+			p.out_time = :outTime,
+			p.package_status = :packageStatus
+		WHERE
+			<#if packageId?exists && packageId != -1>
+				p.package_id = :packageId
+			<#else>
+				p.package_id = '-1'
+			</#if>
+			<#if stationId?? && stationId != -1>
+				AND p.station_id = :stationId
+			</#if>
+				AND p.pickup_code = :pickupCode
+		]]>
+	</update>
+	
+	<update id="updatePackageEmailIncr">
+        <![CDATA[
+    	UPDATE
+    		epu_t_package p
+		SET 
+			p.email_send_count = p.email_send_count + 1
+		WHERE
+			<#if packageId?? && packageId != -1>
+				p.package_id = :packageId
+			<#else>
+				p.package_id = -1
+			</#if>
+		]]>
+	</update>
+	
+	<update id="updatePackageMobileIncr">
+        <![CDATA[
+    	UPDATE
+    		epu_t_package p
+		SET 
+			p.mobile_send_count = p.mobile_send_count + 1
+		WHERE
+			<#if packageId?? && packageId != -1>
+				p.package_id = :packageId
+			<#else>
+				p.package_id = -1
+			</#if>
+		]]>
+	</update>
+	
+	<update id="updatePackageStatus">
+        <![CDATA[
+    	UPDATE
+    		epu_t_package p
+		SET 
+			p.package_status = :packageStatus
+		WHERE
+			<#if packageId?? && packageId != -1>
+				p.package_id = :packageId
+			<#else>
+				p.package_id = -1
+			</#if>
+		]]>
+	</update>
+	
+	<update id="updatePackageAutoClose">
+        <![CDATA[
+    	UPDATE
+    		epu_t_package p
+		SET 
+			p.package_status = :packageStatus
+		WHERE
+			NOW() > p.out_end_time
+		]]>
+	</update>
+	
+	<!-- 根据包裹编码查询包裹信息 -->
+	<select id="queryPackageById">
+        <![CDATA[
+    	SELECT
+    		p.package_id AS "packageId", 
+    		p.station_id AS "stationId",
+			p.express_no AS "expressNo", 
+			p.express_company_code AS "expressCompanyCode", 
+    		p.receive_name AS "receiveName", 
+    		p.receive_cellphone AS "receiveCellphone",
+    		p.receive_fixphone AS "receiveFixphone", 
+    		p.receive_email AS "receiveEmail", 
+			p.package_status AS "packageStatus",
+			p.in_time AS "inTime", 
+			p.out_time AS "outTime", 
+			p.out_end_time AS "outEndTime"
+    	FROM
+    		epu_t_package p
+		WHERE
+		<#if packageId?exists && packageId != -1>
+			p.package_id = :packageId
+		<#else>
+			p.package_id = -1
+		</#if>
+		<#if stationId?exists && stationId != -1>
+			AND p.station_id = :stationId
+		</#if>
+		]]>
+	</select>
+	
+	<!-- 根据运单号查询包裹信息 -->
+	<select id="queryPackageByExpressNo">
+        <![CDATA[
+    	SELECT
+    		p.package_id AS "packageId", 
+    		p.station_id AS "stationId",
+			p.express_no AS "expressNo", 
+			p.express_company_code AS "expressCompanyCode", 
+    		p.receive_name AS "receiveName", 
+    		p.receive_cellphone AS "receiveCellphone",
+    		p.receive_fixphone AS "receiveFixphone", 
+    		p.receive_email AS "receiveEmail",
+			p.package_status AS "packageStatus",
+			p.in_time AS "inTime", 
+			p.out_time AS "outTime", 
+			p.out_end_time AS "outEndTime"
+    	FROM
+    		epu_t_package p
+    	WHERE
+		<#if expressNo?exists && expressNo != ''>
+			p.express_no = :expressNo
+		<#else>
+			p.express_no = '-1'
+		</#if>
+		]]>
+	</select>
+	
+		<select id="queryPackagePickupCode">
+        <![CDATA[
+    	SELECT
+			p.pickup_code AS "pickupCode"
+    	FROM
+    		epu_t_package p
+    	WHERE
+			<#if packageId?exists && packageId != -1>
+				p.package_id = :packageId
+			<#else>
+				p.package_id = -1
+			</#if>
+		]]>
+	</select>
+	
+	<select id="queryPackageNotice">
+        <![CDATA[
+    	SELECT
+    		p.package_id AS "packageId", 
+    		p.station_id AS "stationId",
+			p.express_no AS "expressNo", 
+			p.express_company_code AS "expressCompanyCode", 
+    		p.receive_name AS "receiveName", 
+    		p.receive_cellphone AS "receiveCellphone",
+    		p.receive_fixphone AS "receiveFixphone", 
+    		p.receive_email AS "receiveEmail",
+			p.package_status AS "packageStatus",
+			p.in_time AS "inTime", 
+			p.out_time AS "outTime", 
+			p.out_end_time AS "outEndTime",
+			p.pickup_code AS "pickupCode",
+			p.email_send_count AS "emailSendCount",
+			p.mobile_send_count AS "mobileSendCount"
+    	FROM
+    		epu_t_package p
+    	WHERE
+    		p.package_status = :packageStatus
+    		<#if condition?? && condition == "sendEmail">
+    			AND p.email_send_count = 0
+    		<#elseif condition?? && condition == "sendMobile">
+    			AND p.mobile_send_count = 0
+    		<#elseif condition?? && condition == "againNotice">
+    			AND DATEDIFF(NOW(),p.in_time) >= 1 AND DATEDIFF(NOW(),p.in_time) <= 3
+    		</#if>
+		]]>
+	</select>
+	
+	<select id="queryPackageCount">
+        <![CDATA[
+    	SELECT
+    		COUNT(*) AS "totalRecords"
+    	FROM
+    		epu_t_package p
+		WHERE
+		<#if stationId?exists && stationId != -1>
+			p.station_id = :stationId
+		<#else>
+			p.station_id = -1
+		</#if>
+		<#if packageId?exists && stationId != -1>
+			AND p.package_id = :packageId
+		</#if>
+		<#if expressNo?exists && expressNo != ''>
+			AND p.express_no = :expressNo
+		</#if>
+		<#if expressCompanyCode?exists && expressCompanyCode != ''>
+			AND p.express_company_code = :expressCompanyCode
+		</#if>
+		<#if receiveName?exists && receiveName != ''>
+			AND p.receive_name = :receiveName
+		</#if>
+		<#if receiveCellphone?exists && receiveCellphone != ''>
+			AND p.receive_cellphone LIKE :receiveCellphone
+		</#if>
+		<#if packageStatus?exists && packageStatus != ''>
+			AND p.package_status = :packageStatus
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryPackagePage">
+        <![CDATA[
+    	SELECT
+    		p.package_id AS "packageId", 
+    		p.station_id AS "stationId",
+			p.express_no AS "expressNo",
+			p.express_company_code AS "expressCompanyCode", 
+    		p.receive_name AS "receiveName", 
+    		p.receive_cellphone AS "receiveCellphone", 
+    		p.receive_fixphone AS "receiveFixphone",
+    		p.receive_email AS "receiveEmail",
+    		p.package_status AS "packageStatus",
+    		p.in_time AS "inTime",
+    		p.out_time AS "outTime",
+			p.out_end_time AS "outEndTime"
+    	FROM
+    		epu_t_package p
+		WHERE
+		<#if stationId?exists && stationId != -1>
+			p.station_id = :stationId
+		<#else>
+			p.station_id = -1
+		</#if>
+		<#if packageId?exists && stationId != -1>
+			AND p.package_id = :packageId
+		</#if>
+		<#if expressNo?exists && expressNo != ''>
+			AND p.express_no = :expressNo
+		</#if>
+		<#if expressCompanyCode?exists && expressCompanyCode != ''>
+			AND p.express_company_code = :expressCompanyCode
+		</#if>
+		<#if receiveName?exists && receiveName != ''>
+			AND p.receive_name = :receiveName
+		</#if>
+		<#if receiveCellphone?exists && receiveCellphone != ''>
+			AND p.receive_cellphone LIKE :receiveCellphone
+		</#if>
+		<#if packageStatus?exists && packageStatus != ''>
+			AND p.package_status = :packageStatus
+		</#if>
+		<#if startIndex?exists && pageSize?exists>
+		LIMIT :startIndex, :pageSize
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryPackageAll">
+        <![CDATA[
+    	SELECT
+    		p.package_id AS "packageId", 
+    		p.station_id AS "stationId",
+			p.express_no AS "expressNo",
+			p.express_company_code AS "expressCompanyCode", 
+    		p.receive_name AS "receiveName", 
+    		p.receive_cellphone AS "receiveCellphone", 
+    		p.receive_fixphone AS "receiveFixphone",
+    		p.receive_email AS "receiveEmail",
+    		p.package_status AS "packageStatus",
+    		p.in_time AS "inTime",
+    		p.out_time AS "outTime",
+			p.out_end_time AS "outEndTime",
+			p.email_send_count AS "emailSendCount",
+			p.mobile_send_count AS "mobileSendCount"
+    	FROM	
+    		epu_t_package p
+		WHERE
+			1 = 1
+		<#if packageStatus?? && packageStatus != ''>
+			AND p.package_status = :packageStatus
+		</#if>
+		<#if stationId?? && stationId != -1>
+			AND p.station_id = :stationId
+		</#if>
+		]]>
+	</select>
+	
+</sqlMap>

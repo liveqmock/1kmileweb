@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="masterStationMapper">
+
+	<insert id="insertMasterStation">
+		<![CDATA[
+        INSERT
+        INTO oms_t_master_station
+        	(station_name,
+        	station_short_name,
+        	contract_time,
+        	cellphone,
+        	fixphone,
+        	status)
+    	VALUES
+    		(:stationName,
+    		:stationShortName,
+    		:contractTime,
+    		:cellphone,
+    		:fixphone,
+    		:status
+    		)
+		]]>
+	</insert>
+	
+	<update id="updateMasterStation">
+		<![CDATA[
+        UPDATE
+        	oms_t_master_station m, oms_t_corp_struct cs, oms_t_master_station_struct_real mssr
+        SET 
+        	m.station_name = :stationName,
+        	m.station_short_name = :stationShortName,
+        	m.cellphone = :cellphone,
+        	m.fixphone = :fixphone,
+        	m.status = :status,
+        	cs.struct_name = :stationName
+        WHERE
+        	<#if stationId?exists && stationId != -1>
+        		m.station_id = :stationId
+        	<#else>
+        		m.station_id = -1
+        	</#if>
+        	AND m.station_id = mssr.master_station_id
+        	AND cs.struct_id = mssr.corp_struct_id
+		]]>
+	</update>
+	
+	<select id="queryMasterStationByStructId">
+		<![CDATA[
+		SELECT
+			m.station_id AS "stationId",
+			m.station_name AS "stationName",
+        	m.station_short_name AS "stationShortName",
+        	m.contract_time AS "contractTime",
+        	m.cellphone AS "cellphone",
+        	m.fixphone AS "fixphone",
+        	m.status AS "status"
+		FROM
+			oms_t_master_station m, oms_t_master_station_struct_real mssr
+		WHERE
+		<#if structId?exists && structId != -1>
+			mssr.corp_struct_id = :structId
+			AND m.station_id = mssr.master_station_id
+		<#else>
+			mssr.corp_struct_id = -1
+			AND m.station_id = mssr.master_station_id
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryMasterStationById">
+		<![CDATA[
+		SELECT
+			m.station_id AS "stationId",
+			m.station_name AS "stationName",
+        	m.station_short_name AS "stationShortName",
+        	m.contract_time AS "contractTime",
+        	m.cellphone AS "cellphone",
+        	m.fixphone AS "fixphone",
+        	m.status AS "status"
+		FROM
+			oms_t_master_station m
+		WHERE 
+		<#if stationId?exists && stationId != -1>
+			m.station_id = :stationId
+		<#else>
+			m.station_id = '-1'
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryMasterStationAll">
+		<![CDATA[
+		SELECT
+			m.station_id AS "stationId",
+			m.station_name AS "stationName",
+        	m.station_short_name AS "stationShortName",
+        	m.contract_time AS "contractTime",
+        	m.cellphone AS "cellphone",
+        	m.fixphone AS "fixphone",
+        	m.status AS "status"
+		FROM
+			oms_t_master_station m
+		WHERE
+			1 = 1
+		<#if status?exists>
+			AND m.status = :status
+		</#if>
+		]]>
+	</select>
+
+</sqlMap>

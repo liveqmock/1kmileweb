@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="addressMapper">
+
+	<select id="queryAddressAll">
+		<![CDATA[
+		SELECT
+			a.address_code AS "addressCode",
+			a.address_name AS "addressName", 
+			a.level AS "level", 
+			a.parent_code AS "parentCode",
+			a.display_order AS "displayOrder"
+		FROM
+			oms_t_address a
+		ORDER BY a.level
+		]]>
+	</select>
+	
+	<select id="queryProvinces">
+		<![CDATA[
+		SELECT
+			a.address_code AS "addressCode",
+			a.address_name AS "addressName", 
+			a.level AS "level", 
+			a.parent_code AS "parentCode",
+			a.display_order AS "displayOrder"
+		FROM
+			oms_t_address a
+		WHERE
+			a.level = '1'
+			AND a.parent_code = '0'
+			<#if addressCode?exists && addressCode != '-1'>
+				AND a.address_code = :addressCode
+			</#if>
+			<#if addressName?exists && addressName != '-1'>
+				AND a.addressName = :addressName
+			</#if>
+		]]>
+	</select>
+	
+	<select id="queryCitys">
+		<![CDATA[
+		SELECT
+			a.address_code AS "addressCode",
+			a.address_name AS "addressName", 
+			a.level AS "level", 
+			a.parent_code AS "parentCode",
+			a.display_order AS "displayOrder"
+		FROM
+			oms_t_address a
+		WHERE
+			a.level = '2'
+			<#if parentCode?exists && parentCode != '-1'>
+				AND a.parent_code = :parentCode
+			</#if>
+			<#if addressCode?exists && addressCode != '-1'>
+				AND a.address_code = :addressCode
+			</#if>
+			<#if addressName?exists && addressName != '-1'>
+				AND a.addressName = :addressName
+			</#if>
+		]]>
+	</select>
+	
+	<select id="queryDistricts">
+		<![CDATA[
+		SELECT
+			a.address_code AS "addressCode",
+			a.address_name AS "addressName", 
+			a.level AS "level", 
+			a.parent_code AS "parentCode",
+			a.display_order AS "displayOrder"
+		FROM
+			oms_t_address a
+		WHERE
+			a.level = '3'
+			<#if parentCode?exists && parentCode != '-1'>
+				AND a.parent_code = :parentCode
+			</#if>
+			<#if addressCode?exists && addressCode != '-1'>
+				AND a.address_code = :addressCode
+			</#if>
+			<#if addressName?exists && addressName != '-1'>
+				AND a.addressName = :addressName
+			</#if>
+		]]>
+	</select>
+
+</sqlMap>

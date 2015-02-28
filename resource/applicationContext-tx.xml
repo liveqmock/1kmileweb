@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- 开启注解事务 只对当前配置文件有效 -->
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<!-- 通过aop定义事务增强切面 -->
+	<aop:config expose-proxy="true">
+		<!-- 使用强大的切点表达式语言轻松定义目标方法 -->
+		<aop:pointcut id="serviceMethod"
+			expression="execution(* com.yeahwell.epu.service..*.*(..))" />
+		<!-- 引用事务传播 -->
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+	</aop:config>
+
+	<!-- 配置事务的传播特性 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<!-- 事务属性定义 -->
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="java.lang.Exception" />
+			<tx:method name="insert*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="save*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+
+			<tx:method name="delete*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="remove*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+
+			<tx:method name="update*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="modify*" propagation="REQUIRED"
+				rollback-for="java.lang.Exception" />
+
+			<tx:method name="select*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="get*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="find*" read-only="true" propagation="SUPPORTS" />
+			<tx:method name="list*" read-only="true" propagation="SUPPORTS" />
+
+			<!--默认其他方法都是REQUIRED -->
+			<tx:method name="*" propagation="REQUIRED" />
+
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="transactionTemplate"
+		class="org.springframework.transaction.support.TransactionTemplate">
+		<property name="transactionManager" ref="txManager" />
+		 <!--ISOLATION_DEFAULT 表示由使用的数据库决定  -->  
+        <property name="isolationLevelName" value="ISOLATION_DEFAULT"/>  
+        <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>  
+	</bean>
+
+</beans>

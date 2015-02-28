@@ -1,0 +1,24 @@
+<#assign decorator=JspTaglibs["http://www.opensymphony.com/sitemesh/decorator"]>
+<#include "../ftl/merchant/macros/helpers.ftl" />
+<!doctype html>
+<html>
+	<head>
+		<#include "./merchantShared/commonHeader.html"/>
+		${head}
+	</head>
+
+	<body class="loginpage">
+	<div class="header">
+		<div class="wrapper headbox">
+			<div class="logoarea">
+				<a href="javascript:;" title="易提站"><img src="${staticFileRoot}/images/login-logo2.png" alt="易提站" /></a>
+			</div>
+			<div class="welcomeinfo">
+				<p>您好，欢迎光临易提站平台</p>
+			</div>
+		</div>
+	</div>
+	${body}
+	<#include "./merchantShared/commonFooter.html"/>
+	</body>
+</html>

@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="childStationMapper">
+
+	<insert id="insertChildStation">
+		<![CDATA[
+        INSERT
+        INTO oms_t_child_station
+        	(station_name, type,
+        	business_time, station_desc,
+        	province_code, city_code, district_code, street_code, detail_address, whole_address,
+        	linkman, cellphone, fixphone,
+        	create_time,
+        	status)
+    	VALUES
+    		(:stationName, :type,
+    		:businessTime, :stationDesc,
+    		:provinceCode, :cityCode, :districtCode, :streetCode, :detailAddress, :wholeAddress,
+    		:linkman, :cellphone, :fixphone,
+    		:createTime,
+    		:status
+    		)
+		]]>
+	</insert>
+	
+	<update id="updateChildStation">
+		<![CDATA[
+        UPDATE
+        	oms_t_child_station s, oms_t_corp_struct cs, oms_t_child_station_struct_real cssr
+        SET
+        	s.station_name = :stationName, 
+        	s.type = :type,
+        	s.business_time = :businessTime, 
+        	s.station_desc = :stationDesc,
+        	s.province_code = :provinceCode, s.city_code = :cityCode, 
+        	s.district_code = :districtCode, s.street_code = :streetCode, 
+        	s.detail_address = :detailAddress, s.whole_address = :wholeAddress,
+        	s.linkman = :linkman, s.cellphone = :cellphone, s.fixphone = :fixphone,
+        	s.status = :status,
+        	cs.struct_name = :stationName,
+        	cs.parent_id = :structParentId
+        WHERE
+        	<#if stationId?exists && stationId != -1>
+        		s.station_id = :stationId
+        	<#else>
+        		s.station_id = -1
+        	</#if>
+        	AND s.station_id = cssr.child_station_id
+        	AND cs.struct_id = cssr.corp_struct_id
+		]]>
+	</update>
+	
+	<select id="queryChildStationByStructId">
+		<![CDATA[
+		SELECT
+			s.station_id AS "stationId", s.station_name AS "stationName",
+			s.type AS "type",
+			s.business_time AS "businessTime", s.station_desc AS "stationDesc",
+			s.province_code AS "provinceCode", s.city_code AS "cityCode",
+			s.district_code AS "districtCode", s.street_code AS "streetCode",
+			s.detail_address AS "detailAddress", s.whole_address AS "wholeAddress",
+			s.linkman AS "linkman",
+			s.cellphone AS "cellphone", s.fixphone AS "fixphone",
+			s.create_time AS "createTime",
+			s.status AS "status"
+		FROM
+			oms_t_child_station s, oms_t_child_station_struct_real cssr
+		WHERE 
+		<#if structId?? && structId != -1>
+			cssr.corp_struct_id = :structId
+			AND s.station_id = cssr.child_station_id
+		<#else>
+			cssr.corp_struct_id = '-1'
+			AND s.station_id = cssr.child_station_id
+		</#if>
+		<#if status?? && status != ''>
+			AND s.status = :status
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryChildStationById">
+		<![CDATA[
+		SELECT
+			s.station_id AS "stationId", 
+			cssr.corp_struct_id AS "structId",
+			s.station_name AS "stationName",
+			s.type AS "type",
+			s.business_time AS "businessTime", s.station_desc AS "stationDesc",
+			s.province_code AS "provinceCode", s.city_code AS "cityCode",
+			s.district_code AS "districtCode", s.street_code AS "streetCode",
+			s.detail_address AS "detailAddress", s.whole_address AS "wholeAddress",
+			s.linkman AS "linkman",
+			s.cellphone AS "cellphone", s.fixphone AS "fixphone",
+			s.create_time AS "createTime",
+			s.status AS "status"
+		FROM
+			oms_t_child_station s LEFT JOIN oms_t_child_station_struct_real cssr ON s.station_id = cssr.child_station_id
+		WHERE
+			1 = 1
+		<#if stationId?exists && stationId != -1>
+			AND s.station_id = :stationId
+		<#else>
+			AND s.station_id = '-1'
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryChildStationAll">
+		<![CDATA[
+		SELECT
+			s.station_id AS "stationId", 
+			s.station_name AS "stationName",
+			s.type AS "type",
+			s.business_time AS "businessTime", s.station_desc AS "stationDesc",
+			s.province_code AS "provinceCode", s.city_code AS "cityCode",
+			s.district_code AS "districtCode", s.street_code AS "streetCode",
+			s.detail_address AS "detailAddress", s.whole_address AS "wholeAddress",
+			s.linkman AS "linkman",
+			s.cellphone AS "cellphone", s.fixphone AS "fixphone",
+			s.create_time AS "createTime",
+			s.status AS "status"
+		FROM
+			oms_t_child_station s
+		WHERE
+    		1 = 1
+    		<#if status?? && status != ''>
+    			AND s.status = :status
+    		</#if>
+		]]>
+	</select>
+	
+	<select id="queryChildStationCount">
+		<![CDATA[
+    	SELECT
+    		COUNT(*) AS "totalRecords"
+    	FROM
+    		oms_t_child_station s, oms_t_corp_struct cs, oms_t_child_station_struct_real cssr
+    	WHERE
+    		1 = 1
+    		<#if structParentId?? && structParentId != -1>
+    			AND s.station_id = cssr.child_station_id AND cs.struct_id = cssr.corp_struct_id
+    			AND cs.parent_id = :structParentId
+    		</#if>
+    		<#if structId?? && structId != -1>
+    			AND s.station_id = cssr.child_station_id AND cs.struct_id = cssr.corp_struct_id
+    			AND cs.struct_id = :structId
+    		</#if>
+    		<#if stationId?? && stationId != -1>
+    			AND s.station_id = :stationId
+    		</#if>
+    		<#if stationName?? && stationName != ''>
+    			AND s.station_name LIKE :stationName
+    		</#if>
+    		<#if status?? && status != ''>
+    			AND s.status = :status
+    		</#if>
+    		<#if provinceCode?? && provinceCode != '-1'>
+    			s.provinceCode = :provinceCode
+    		</#if>
+    		<#if cityCode?? && cityCode != '-1'>
+    			AND s.cityCode = :cityCode
+    		</#if>
+    		<#if  cityCode?? && cityCode != '-1' && districtCode?? && districtCdoe != '-1'>
+    			AND s.districtCode = :districtCode
+    		</#if>
+    		<#if cityCode?? && cityCode != '-1' && districtCode?? && districtCdoe != '-1' && districtCode?? && districtCdoe != '-1'>
+    			AND s.districtCode = :districtCode
+    		</#if>
+		]]>
+	</select>
+
+	<select id="queryChildStationPage">
+		<![CDATA[
+		SELECT
+			s.station_id AS "stationId", 
+			s.station_name AS "stationName",
+			s.type AS "type",
+			s.business_time AS "businessTime", s.station_desc AS "stationDesc",
+			s.province_code AS "provinceCode", s.city_code AS "cityCode",
+			s.district_code AS "districtCode", s.street_code AS "streetCode",
+			s.detail_address AS "detailAddress", s.whole_address AS "wholeAddress",
+			s.linkman AS "linkman",
+			s.cellphone AS "cellphone", s.fixphone AS "fixphone",
+			s.create_time AS "createTime",
+			s.status AS "status"
+		FROM
+			oms_t_child_station s, oms_t_corp_struct cs, oms_t_child_station_struct_real cssr
+		WHERE
+    		1 = 1
+    		<#if structParentId?? && structParentId != -1>
+    			AND s.station_id = cssr.child_station_id AND cs.struct_id = cssr.corp_struct_id
+    			AND cs.parent_id = :structParentId
+    		</#if>
+    		<#if structId?? && structId != -1>
+    			AND s.station_id = cssr.child_station_id AND cs.struct_id = cssr.corp_struct_id
+    			AND cs.struct_id = :structId
+    		</#if>
+    		<#if stationId?? && stationId != -1>
+    			AND s.station_id = :stationId
+    		</#if>
+    		<#if stationName?? && stationName != ''>
+    			AND s.station_name LIKE :stationName
+    		</#if>
+    		<#if status?? && status != ''>
+    			AND s.status = :status
+    		</#if>
+    		<#if provinceCode?? && provinceCode != '-1'>
+    			s.provinceCode = :provinceCode
+    		</#if>
+    		<#if cityCode?? && cityCode != '-1'>
+    			AND s.cityCode = :cityCode
+    		</#if>
+    		<#if  cityCode?? && cityCode != '-1' && districtCode?? && districtCdoe != '-1'>
+    			AND s.districtCode = :districtCode
+    		</#if>
+    		<#if cityCode?? && cityCode != '-1' && districtCode?? && districtCdoe != '-1' && districtCode?? && districtCdoe != '-1'>
+    			AND s.districtCode = :districtCode
+    		</#if>
+		<#if startIndex?exists && pageSize?exists>
+			LIMIT :startIndex, :pageSize
+		</#if>
+		]]>
+	</select>
+	
+</sqlMap>

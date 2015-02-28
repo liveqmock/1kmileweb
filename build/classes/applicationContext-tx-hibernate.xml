@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!-- 开启注解事务 只对当前配置文件有效 -->
+  	<tx:annotation-driven transaction-manager="txManager"/>
+  	
+  	<!-- hibernate4 sessionFactory配置 使用LocalSessionFactoryBean创建基于JPA注解的SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 引用数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 配置扫描包,使用于Annotation方式 -->
+		<property name="packagesToScan" value="com.yeahwell.cutecms.model" />
+		<!-- 命名策略 -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+		<!-- hibernate的属性具体见hibernate文档 -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.query.substitutions">${hibernate.query.substitutions}</prop>
+				<prop key="hibernate.default_batch_fetch_size">${hibernate.default_batch_fetch_size}</prop>
+				<prop key="hibernate.max_fetch_depth">${hibernate.max_fetch_depth}</prop>
+				<prop key="hibernate.generate_statistics">${hibernate.generate_statistics}</prop>
+				<prop key="hibernate.bytecode.use_reflection_optimizer">${hibernate.bytecode.use_reflection_optimizer}</prop>
+				<!-- 如果不设置查询缓存，那么hibernate只会缓存使用load()方法获得的单个持久化对象 。 如果想缓存使用findAll()、list()、iterator()、createCriteria()、createQuery() 
+					等方法获得的数据结果集的话,就需要设置hibernate.cache.use_query_cache=true 才行 -->
+				<prop key="hibernate.cache.use_query_cache">${hibernate.cache.use_query_cache}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.cache.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.region.factory_class">${hibernate.cache.region.factory_class}</prop>
+				<prop key="net.sf.ehcache.configurationResourceName">${net.sf.ehcache.configurationResourceName}</prop>
+				<prop key="hibernate.cache.use_structured_entries">${hibernate.cache.use_structured_entries}</prop>
+			</props>
+		</property>
+	</bean>
+  	
+	<!-- 配置事务管理器bean,使用HibernateTransactionManager事务管理器 -->
+	<bean id="txManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<!-- 为事务管理器注入sessionFactory" -->
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<!-- 通过aop定义事务增强切面 --> 
+	<aop:config expose-proxy="true">
+		<!-- 使用强大的切点表达式语言轻松定义目标方法 -->
+		<aop:pointcut id="serviceMethod"
+			expression="execution(* com.yeahwell.epu.service.*.*(..))" />
+		<!-- 引用事务传播 -->
+		<aop:advisor pointcut-ref="serviceMethod" advice-ref="txAdvice" />
+	</aop:config>
+	
+	<!-- 配置事务的传播特性 -->
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<!-- 事务属性定义 -->
+		<tx:attributes>
+			<!--OpenSessionInViewFilter在getSession的时候,会把获取回来的session的flush mode 设为FlushMode.NEVER。
+			然后把该sessionFactory绑定到TransactionSynchronizationManager，使request的整个过程都使用同一个session，
+			在请求过后再解除该sessionFactory的绑定，最后closeSessionIfNecessary。根据该session是否已和transaction绑定来决定是否关闭session。
+			在这个过程中，若HibernateTemplate 发现自当前session有不是readOnly的transaction，就会获取到FlushMode.AUTO Session，使方法拥有写权限。 
+			也即是，如果有不是readOnly的transaction就可以由Flush.NEVER转为Flush.AUTO,拥有insert,update,delete操作权限，如果没有transaction，
+			并且没有另外人为地设flush model的话，则doFilter的整个过程都是Flush.NEVER。所以受transaction保护的方法有写权限，没受保护的则没有  -->
+			<tx:method name="get*" read-only="true" propagation="REQUIRED"/><!--之前是NOT_SUPPORT-->  
+            <tx:method name="find*" read-only="true" propagation="REQUIRED"/><!--之前是NOT_SUPPORT-->  
+            <tx:method name="save*" propagation="REQUIRED"/>  
+            <tx:method name="update*" propagation="REQUIRED"/>  
+            <tx:method name="remove*" propagation="REQUIRED"/>  
+            <tx:method name="add*" propagation="REQUIRED"/>  
+            <!--默认其他方法都是REQUIRED-->  
+            <!-- <tx:method name="*"/>   -->
+			<tx:method name="*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	
+</beans>

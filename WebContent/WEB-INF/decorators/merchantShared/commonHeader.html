@@ -1,0 +1,15 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<#assign
+    pageTitle = ((page.properties["title"])?? && (page.properties["title"]!="")) ? string(page.properties["title"], ((i18n.common.page.title)! "1公里-易提站") ),
+    pageKeyword =(page.properties["meta.keywords"]) ! (i18n.common.page.keyword) ! "1公里,易提站",
+    pageDescription = (page.properties["meta.description"]) ! (i18n.common.page.description) ! "1公里,易提站,物流最后一公里,最后一公里物流"
+>
+<title>${pageTitle}</title>
+<meta name="keywords" content="${pageKeyword}" />
+<meta name="description" content="${pageDescription}">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="${staticFileRoot}/images/favicon.ico?${staticFileVer}"/>
+<link rel="stylesheet" href="${staticFileRoot}/plugin/bootstrap/css/bootstrap.min.css?${staticFileVer}" />
+<link rel="stylesheet" href="${staticFileRoot}/plugin/bootstrap/css/bootstrap-responsive.min.css?${staticFileVer}" />
+<link rel="stylesheet" type="text/css" href="${staticFileRoot}/merchant/css/main.css?${staticFileVer}" />

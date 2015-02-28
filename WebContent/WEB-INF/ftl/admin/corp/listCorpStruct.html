@@ -1,0 +1,79 @@
+<#import "/spring.ftl" as spring /> 
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"] />
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<#include "/WEB-INF/ftl/admin/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="${staticFileRoot}/plugin/zTree/css/zTreeStyle/zTreeStyle.css?${staticFileVer}" />
+</head>
+<body>
+
+	<div id="content">
+
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="<@l '/admin/index'/>" title="首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a> 
+				<a href="javascript:" class="current">组织结构管理</a>
+			</div>
+		</div>
+		
+		<div class="container-fluid">
+			<div class="row-fluid">
+      		
+      		<div class="span4">
+				<#include "/WEB-INF/ftl/admin/corp/shared/corpStructTreeBox.html" />
+			</div>
+			
+      		<div class="span8">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-th"></i>
+						</span>
+						<h5>结构信息</h5>
+						<span class="label label-info">Featured</span>
+					</div>
+					<div class="widget-content ">
+			          	<form id="corpStructForm" method="post" class="form-horizontal">
+							<div class="control-group">
+								<label class="control-label">组织名称:</label>
+								<div class="controls">
+									<input type="text" id="structName" class="span6" value="" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">类型:</label>
+								<div class="controls">
+									<input type="hidden" id="structType" value=""/>
+									<input type="text" id="structTypeDesc" class="span6" value="" readonly="readonly"/>
+									<span id="structTypeHelp"></span>
+								</div>
+							</div>
+							<div class="control-group">
+								<label class="control-label">创建时间:</label>
+								<div class="controls">
+									<input type="text" id="structCreateTime" class="span6" value="" readonly="readonly"/>
+								</div>
+							</div>
+							<div class="form-actions">
+								<a id="updateCorpStruct" href="javascript:;" class="btn btn-success">编辑</a>
+							</div>
+						</form>
+						<hr />
+					</div>
+				</div> 
+			</div>
+			</div>
+		</div>
+		<!-- container-fluid结束 -->
+	</div>
+	<!-- content结束 -->
+
+<content tag="beforeBodyEnd">
+<script src="${staticFileRoot}/plugin/zTree/js/jquery.ztree.core-3.5.min.js?${staticFileVer}"></script>
+<script src="${staticFileRoot}/admin/js/corp/listCorpStruct.js?${staticFileVer}"></script>
+</content>
+<content tag="corp">active</content>
+</body>
+</html>

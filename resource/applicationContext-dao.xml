@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+ http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+ http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+ http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd ">
+
+	<!-- DAL客户端接口实现 -->
+	<bean id="baseDalClient" class="com.yeahwell.common.dao.suning.BaseDalClient">
+		<property name="resources" value="classpath*:sql/sqlMap_*.xml" />
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- springDaoSupport配置 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<!-- 设置数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- 设置jdbcTemplate创建的statement查询数据时最大的超时时间,默认0 -->
+		<property name="queryTimeout" value="0" />
+		<!-- 设置底层ResultSet每次从数据库返回的行数,默认0,Oracle默认100 -->
+		<property name="fetchSize" value="0" />
+		<!-- 设置底层ResultSet从数据库返回的最大行数,默认0 -->
+		<property name="maxRows" value="0" />
+		<!-- 是否忽略sql警告信息,默认true,false JdbcTemplate将会抛出SQLWarningException -->
+		<property name="ignoreWarnings" value="true" />
+		<property name="nativeJdbcExtractor" ref="nativeJdbcExtractor" />
+	</bean>
+	<!-- 定义DBCP数据源的JDBC本地对象抽取器 -->
+	<bean id="nativeJdbcExtractor" lazy-init="true"
+		class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor" />
+	<!-- springDaoSupport,当需要进行批量更新，或操作数据库时使用 -->
+	<bean id="springDaoSupport" class="com.yeahwell.common.dao.spring.SpringDaoSupport">
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	
+
+</beans>

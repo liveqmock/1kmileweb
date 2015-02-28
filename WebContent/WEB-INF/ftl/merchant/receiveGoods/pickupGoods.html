@@ -1,0 +1,167 @@
+<#import "/spring.ftl" as spring />
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"] />
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" />
+<#include "/WEB-INF/ftl/merchant/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body>
+
+	<div class="path">
+		<a href="<@l '/merchant/index'/>">首页</a> <i>&gt;</i> <span>代收货</span> <i>&gt;</i>
+		<span>顾客提货</span>
+	</div>
+	
+	<div class="content">
+		
+		<div class="conditionbox">
+			<form id="searchForm" action="<@l '/merchant/receiveGoods/pickupGoodsSearch'/>" method="post">
+			<ul>
+				<li><label class="lb6">快递单号：</label>
+					<div class="iptbox">
+						<input id="expressNo" name="expressNo" class="ipt180" type="text" value="">
+					</div>
+				</li>
+				<li><label class="lb6">收件人：</label>
+					<div class="iptbox">
+						<input id="receiveName" name="receiveName" class="ipt150" type="text" value="">
+					</div>
+				</li>
+				<li><label class="lb6">手机后四位：</label>
+					<div class="iptbox">
+						<input id="receiveCellphone" name="receiveCellphone" class="ipt80" type="text" value="">
+					</div>
+					 <a id="buttonSearch" class="sbtn btn-c" href="javascript:;"><span>查询</span></a>
+				</li>
+			</ul>
+			</form>
+		</div>
+		<!-- end conditionbox -->
+		
+		<div class="resultlist tablestyle1">
+			<table>
+				<thead>
+					<tr>
+						<th width="145"><div>快递单号</div></th>
+						<th width="100"><div>收件人</div></th>
+						<th width="100"><div>手机号码</div></th>
+						<th width="145"><div>入站时间</div></th>
+						<th width="70"><div>包裹状态</div></th>
+						<th width="100"><div>提货码</div></th>
+						<th><div>操作</div></th>
+					</tr>
+				</thead>
+				<tbody>
+					<#assign rows = 0 /> 
+					<#list page.pageList as mypackage>
+					<#assign rows = rows + 1>
+					<#if rows % 2 = 0>
+					<tr class="even">
+					<#else>
+					<tr>
+					</#if>
+						<input type="hidden" class="packageId" value="${mypackage.packageId}"/>
+						<td>${mypackage.expressNo}</td>
+						<td>${mypackage.receiveName}</td>
+						<td>${mypackage.receiveCellphone}</td>
+						<td>${mypackage.inTime}</td>
+						<td><@epuTagFront.showEnumByCode enumType="PackageStatusEnum" code="${mypackage.packageStatus}" /></td>
+						<td>	
+							<div class="th-code">
+								<input class="ipt ipt80 pickupCode" type="text" />
+							</div>
+						</td>
+						<td>
+							<p class="operation">
+								<a class="takegoods" href="javascript:;">提货</a> 
+								<a class="losegoodscode" href="javascript:;">提货码丢失</a>
+							</p>
+						</td>
+					</tr>
+					</#list>
+				</tbody>
+			</table>
+		</div>
+		<!-- end resultlist -->
+		
+		<div class="btnbox">
+			<@pagerStyle1 page '/merchant/receiveGoods/pickupGoods' />
+		</div>
+		
+	</div>
+	<!-- end content -->
+	
+	<!--弹框 [[-->
+	<div id="allMask"></div>
+	
+	<div class="popuwin hide" id="getTakeGoodCode">
+		<div class="winbg"></div>
+		<div class="winmain">
+			<div class="wintitle">
+				<a href="javascript:;">×</a>
+				<p>获取提货码</p>
+			</div>
+			<div class="wincontent">
+				<table class="tiptable">
+					<tr>
+						<td width="42"><i class="icon32 i-warn"></i></td>
+						<td><p class="msg">请点击获取提货码，2分钟内系统会将提货码发送到收件人的手机号上</p></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a class="sbtn btn-c getcode" href="javascript:void(0);"><span>获取提货码</span></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div class="popuwin" id="TakeGood">
+		<div class="winbg"></div>
+		<div class="winmain">
+			<div class="wintitle">
+				<a href="javascript:;">×</a>
+				<p>提货</p>
+			</div>
+			<div class="wincontent">
+				<!--提货成功-->
+				<table class="tiptable takegoodsucc hide">
+					<tr>
+						<td width="42"><i class="icon32 i-succ"></i></td>
+						<td><p class="msg">您已提货成功</p></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a class="sbtn btn-c ok-btn" href="javascript:void(0);"><span>确认并返回</span></a>
+						</td>
+					</tr>
+				</table>
+				<!--提货码错误-->
+				<table class="tiptable takegoodfailed hide">
+					<tr>
+						<td width="42"><i class="icon32 i-error"></i></td>
+						<td><p class="msg">提货码错误，请再次输入</p></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<a class="sbtn btn-c ok-btn" href="javascript:void(0);"><span>确认并返回</span></a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>	
+	<!--]] 弹框-->
+	
+	<content tag="beforeBodyEnd">
+		<script type="text/javascript" src="${staticFileRoot}/merchant/js/receiveGoods/pickupGoods.js"></script>
+	</content>
+<content tag="express">cur</content>	
+</body>
+</html>

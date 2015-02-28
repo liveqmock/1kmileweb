@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="packageExtraMapper">
+
+	<!-- 新增包裹信息 -->
+	<insert id="insertPackageExtra">
+        <![CDATA[
+    	INSERT
+    	INTO epu_t_package_extra
+    		(
+    		package_id,
+    		order_source_code,
+    		order_no, 
+			merchant_code, 
+			merchant_name,
+    		pay_way_code, 
+    		pay_rmb, 
+    		debt_rmb, 
+    		pay_status, 
+    		receive_province_code,
+    		receive_city_code,
+    		receive_district_code,
+    		receive_street_code,
+    		receive_detail_address,
+    		receive_whole_address,
+    		send_name,
+    		send_cellphone, 
+    		send_fixphone, 
+    		send_province_code, 
+    		send_city_code, 
+    		send_district_code, 
+    		send_street_code,
+    		send_detail_address,
+    		send_whole_address,
+    		return_name, 
+    		return_cellphone, 
+    		return_fixphone, 
+    		return_province_code, 
+    		return_city_code, 
+    		return_district_code, 
+    		return_street_code,
+    		return_detail_address,
+    		return_whole_address
+    		)
+    	VALUES
+    		(
+    		:packageId,
+    		:orderSourceCode, 
+    		:orderNo, 
+    		:merchantCode, 
+    		:merchantName,
+    		:payWayCode,
+    		:payRmb,
+    		:debtRmb,
+    		:payStatus, 
+    		:receiveProvinceCode,
+    		:receiveCityCode, 
+    		:receiveDistrictCode, 
+    		:receiveStreetCode, 
+    		:receiveDetailAddress,
+    		:receiveWholeAddress,
+    		:sendName,
+    		:sendCellphone,
+    		:sendFixphone, 
+    		:sendProvinceCode,
+    		:sendCityCode,
+    		:sendDistrictCode,
+    		:sendStreetCode,
+    		:sendDetailAddress,
+    		:sendWholeAddress,
+    		:returnName, 
+    		:returnCellphone, 
+    		:returnFixphone, 
+    		:returnProvinceCode, 
+    		:returnCityCode, 
+    		:returnDistrictCode, 
+    		:returnStreetCode, 
+    		:returnDetailAddress,
+    		:returnWholeAddress
+    	      )
+		]]>
+	</insert>
+
+	<select id="queryPackageExtraById">
+        <![CDATA[
+    	SELECT
+    		pe.package_id AS "packageId",
+    		pe.order_source_code AS "orderSourceCode", 
+    		pe.order_no AS "orderNo", 
+			pe.merchant_code AS "merchantCode", 
+			pe.merchant_name AS "merchantName",
+			pe.pay_status AS "payStatus", 
+    		pe.pay_way_code AS "payWayCode", 
+    		pe.pay_rmb AS "payRmb", 
+    		pe.debt_rmb AS "debtRmb",
+    		pe.receive_province_code AS "receiveProvinceCode",
+    		pe.receive_city_code AS "receiveCityCode", 
+			pe.receive_district_code AS "recieveDistrictCode", 
+			pe.receive_street_code AS "receiveStreetCode", 
+			pe.receive_detail_address AS "receiveDetailAddress",
+    		pe.send_name AS "sendName", 
+    		pe.send_cellphone AS "sendCellphone", 
+    		pe.send_fixphone AS "sendFixphone", 
+    		pe.send_province_code AS "sendProvince", 
+    		pe.send_city_code AS "sendCityCode", 
+			pe.send_district_code AS "sendDistrictCode",
+			pe.send_street_code AS "sendStreetCode",
+			pe.send_detail_address AS "sendDetailAddress",
+    		pe.return_name AS "returnName",
+    		pe.return_cellphone AS "returnCellphone",
+    		pe.return_fixphone AS "returnFixphone", 
+    		pe.return_province_code AS "returnProvinceCode", 
+    		pe.return_city_code AS "returnCityCode", 
+			pe.return_district_code AS "returnDistrictCode", 
+			pe.return_street_code AS "returnStreetCode", 
+			pe.return_detail_address AS "returnDetailAddress"
+    	FROM
+    		epu_t_package_extra pe
+		WHERE
+		<#if packageId?exists && packageId != -1>
+			AND pe.package_id = :packageId
+		<#else>
+			pe.package_id = -1
+		</#if>
+		]]>
+	</select>
+
+</sqlMap>

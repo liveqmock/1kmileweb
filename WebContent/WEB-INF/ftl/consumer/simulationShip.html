@@ -1,0 +1,139 @@
+<#import "/spring.ftl" as spring /> <#include
+"/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<!doctype html>
+<html>
+
+<head>
+<title>模拟下单</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- <link rel="stylesheet"
+	href="${staticFileRoot}/plugin/bootstrap/css/bootstrap.min.css?${staticFileVer}" />
+<link rel="stylesheet"
+	href="${staticFileRoot}/plugin/bootstrap/css/bootstrap-responsive.min.css?${staticFileVer}" /> -->
+<link rel="stylesheet"
+	href="${staticFileRoot}/merchant/css/basecommon.css?${staticFileVer}" />
+<link rel="stylesheet"
+	href="${staticFileRoot}/merchant/css/baseouter.css?${staticFileVer}" />
+</head>
+
+<body>
+
+	<header id="header">
+
+		<nav id="header_outer"
+			class="navbar navbar-inverse navbar-default navbar-fixed-top"
+			role="navigation">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target=".navbar-header-collapse">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a id="header_logo" class="navbar-brand" href="#" title="模拟环境">模拟环境</a>
+			</div>
+			<div class="collapse navbar-collapse navbar-header-collapse">
+
+				<ul id="header_menu" class="nav navbar-nav">
+					<li><a href="#">首页</a></li>
+					<li class="active"><a href="#">模拟下单</a></li>
+					<li><a href="#">待定</a></li>
+					<li><a href="#">待定</a></li>
+					<li><a href="#">待定</a></li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right" id="header_me">
+					<li class="divider-vertical hidden-xs"></li>
+					<li><a class="mr_15" href="#">特定</a></li>
+					<li><a href="#">待定</a></li>
+				</ul>
+			</div>
+		</nav>
+
+	</header>
+
+	<div id="wrap-all">
+		<div id="main" class="inner">
+
+			<div class="other-warp">
+				<div class="single-panel clearfix">
+					<div class="single-panel-inner middle">
+						<div class="single-panel-header">
+							<h3>模拟下单</h3>
+						</div>
+						<div class="single-panel-body">
+							<div class="single-panel-section">
+								<form name="mypackageAddForm" action="<@l '/business/ship/send'/>" method="post" class="form-horizontal wt-form">
+									<div class="form-group">
+										<label class="col-xs-2 control-label">选择站点：</label>
+										<div class="col-xs-10">
+											<select name="stationId" id="stationId">
+												<#if childStationList?? && childStationList?size gt 0>
+													<#list childStationList as childStation>
+														<option value="${childStation.stationId}">${childStation.stationName}(${childStation.wholeAddress})</option>
+													</#list>
+												</#if>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-2 control-label">物流公司：</label>
+										<div class="col-xs-10">
+											<select name="expressCompanyCode" id="expressCompanyCode">
+												<#if expressCompanyList?? && expressCompanyList?size gt 0>
+													<#list expressCompanyList as expressCompany>
+														<option value="${expressCompany.code}">${expressCompany.cnValue}</option>
+													</#list>
+												</#if>
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-2 control-label">快递单号：</label>
+										<div class="col-xs-10">
+											<input class="form-control" type="text" name="expressNo" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-2 control-label">收件人：</label>
+										<div class="col-xs-10">
+											<input class="form-control" type="text" name="receiveName" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-2 control-label">手机号：</label>
+										<div class="col-xs-10">
+											<input class="form-control" type="text"
+												name="receiveCellphone" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="col-xs-2 control-label">邮箱：</label>
+										<div class="col-xs-10">
+											<input class="form-control" type="text" name="receiveEmail" />
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-xs-2"></div>
+										<div class="col-xs-10">
+											<button type="submit" class="btn btn-success"
+												data-loading-text="提交中...">发货
+											</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+</body>
+</html>

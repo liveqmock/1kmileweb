@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="corpStructMapper">
+
+	<insert id="insertCorpStruct">
+		<![CDATA[
+		INSERT INTO oms_t_corp_struct(struct_name, level, parent_id, type, create_time)
+		VALUES(:structName, :level, :parentId, :type, :createTime)
+		]]>
+	</insert>
+
+	<select id="queryCorpStructById">
+		<![CDATA[
+		SELECT
+			c.struct_id AS "structId",
+			c.struct_name AS "structName",
+			c.level AS "level",
+			c.parent_id AS "parentId",
+			c.type AS "type",
+			c.create_time AS "createTime"
+		FROM
+			oms_t_corp_struct c
+		WHERE
+		<#if structId?exists && structId != -1>
+			c.struct_id = :structId
+		<#else>
+			c.struct_id = '-1'
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryCorpStructByParentId">
+		<![CDATA[
+		SELECT
+			c.struct_id AS "structId",
+			c.struct_name AS "structName",
+			c.level AS "level",
+			c.parent_id AS "parentId",
+			c.type AS "type",
+			c.create_time AS "createTime"
+		FROM
+			oms_t_corp_struct c
+		WHERE
+		<#if parentId?exists && parentId != -1>
+			c.parent_id = :parentId
+		<#else>
+			c.parent_id = -1
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryCorpStructAll">
+		<![CDATA[
+		SELECT
+			c.struct_id AS "structId",
+			c.struct_name AS "structName",
+			c.level AS "level",
+			c.parent_id AS "parentId",
+			c.type AS "type",
+			c.create_time AS "createTime"
+		FROM
+			oms_t_corp_struct c
+		WHERE
+			1 = 1
+			<#if typeList?? && typeList?size gt 0>
+				AND c.type IN(:typeList)
+			</#if>
+		]]>
+	</select>
+	
+	<select id="queryCorpStructCount">
+		<![CDATA[
+    	SELECT
+    		COUNT(*) AS "totalRecords"
+    	FROM
+    		oms_t_corp_struct c
+    	WHERE
+    		1 = 1
+		]]>
+	</select>
+	
+	<select id="queryCorpStructPage">
+		<![CDATA[
+		SELECT
+			c.struct_id AS "structId",
+			c.struct_name AS "structName",
+			c.level AS "level",
+			c.parent_id AS "parentId",
+			c.type AS "type",
+			c.create_time AS "createTime"
+		FROM
+			oms_t_corp_struct c
+		WHERE
+			1 = 1
+		]]>
+	</select>
+	
+</sqlMap>

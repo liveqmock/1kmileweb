@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="articleMapper">
+
+	<select id="queryArticleCount">
+        <![CDATA[
+    	SELECT
+    		COUNT(*) AS "totalRecords"
+    	FROM
+    		cms_t_article a
+    	WHERE
+    		1 = 1
+    	<#if status?? && status != ''>
+    		AND a.status = :status
+    	</#if>
+    	<#if catCode?? && catCode != ''>
+    		AND a.cat_code = :catCode
+    	</#if>
+    	<#if title?? &&  title != ''>
+    		AND a.title like :title
+    	</#if>
+		]]>
+	</select>
+
+	<select id="queryArticlePage">
+		<![CDATA[
+		SELECT
+			a.article_id AS "articleId",
+			a.cat_code AS "catCode",
+			a.title AS "title",
+			a.content AS "content",
+			a.status AS "status",
+			a.create_time AS "createTime",
+			a.update_time AS "updateTime"
+		FROM
+			cms_t_article a
+    	WHERE
+    		1 = 1
+    	<#if status?? && status != ''>
+    		AND a.status = :status
+    	</#if>
+    	<#if catCode?? && catCode != ''>
+    		AND a.cat_code = :catCode
+    	</#if>
+    	<#if title?? && title!= ''>
+    		AND a.title like :title
+    	</#if>
+    	<#if startIndex?exists && pageSize?exists>
+		LIMIT :startIndex, :pageSize
+		</#if>
+		]]>
+	</select>
+	
+	<select id="queryArticleById">
+		<![CDATA[
+		SELECT
+			a.article_id AS "articleId",
+			a.cat_code AS "catCode",
+			a.title AS "title",
+			a.content AS "content",
+			a.status AS "status",
+			a.create_time AS "createTime",
+			a.update_time AS "updateTime"		
+		FROM
+			cms_t_article a
+    	WHERE
+		<#if articleId?exists>
+    		a.article_id = :articleId
+    	<#else>
+    		a.article_id = -1
+    	</#if>
+		]]>
+	</select>
+	
+	<insert id="insertArticle">
+		<![CDATA[
+		INSERT
+		INTO cms_t_article(cat_code, title, content, status, create_time, update_time)
+		VALUES(:catCode, :title, :content, :status, :createTime, :updateTime)
+		]]>
+	</insert>
+	
+	<update id="updateArticle">
+		<![CDATA[
+		UPDATE cms_t_article a
+		SET 
+			a.cat_code = :catCode,
+			a.title = :title, 
+			a.content = :content,
+			a.update_time = :updateTime
+		WHERE
+		<#if articleId?exists>
+			a.article_id = :articleId
+		<#else>
+			a.article_id = -1
+		</#if>
+		]]>
+	</update>
+	
+	<update id="updateArticleStatus">
+		<![CDATA[
+		UPDATE cms_t_article a
+		SET 
+			a.status = :status
+		WHERE
+		<#if articleId?exists>
+			a.article_id = :articleId
+		<#else>
+			a.article_id = -1
+		</#if>
+		]]>
+	</update>
+	
+	<delete id="deleteArticle">
+		<![CDATA[
+		DELETE
+		FROM cms_t_article a
+		WHERE
+		<#if articleId?exists>
+			a.article_id = :articleId
+		<#else>
+			a.article_id = -1
+		</#if>
+		]]>
+	</delete>
+
+</sqlMap>

@@ -1,0 +1,24 @@
+
+1. jquery插件
+(1)masked.js
+Masked Input Plugin
+Masked Input这个jQuery插件让用户能够按照预先设定好的固定格式输入数据(如日期、电话号码等)。
+主页:http://digitalbush.com/projects/masked-input-plugin=
+下载:http://jquery-joshbush.googlecode.com/files/jquery.maskedinput-1.2.2.min.js
+示例:http://digitalbush.com/projects/masked-input-plugin
+
+(2) flot
+flot 是一个基于jquery的开源javascript库,是一个纯粹的 jQuery JavaScript 绘图库，可以在客户端即时生成图形，使用非常简单，支持放大缩小以及鼠标追踪等交互功能。
+该插件支持 IE6/7/8/9, Firefox 2.x+, Safari 3.0+, Opera 9.5+ 以及 Konqueror 4.x+。
+使用的是 Safari 最先引入的 Canvas 对象(html5中新增的对象)，目前所有主流浏览器都支持该对象， IE8以下等不支持的浏览器, 使用 JavaScript 进行模拟。
+注意：如果要支持IE9以下的浏览器,您需要使用Excanvas, 一个canvas 模拟器，所以还需要加入这段标签:
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="excanvas.min.js"></script><![endif]-->
+
+(3) peity
+Peity是一个jQuery插件它利用HTML5 <canvas>标签来创建微型图表（sparklines）。
+它支持柱状、线状和饼图，图的颜色、宽度、半径、分隔符都可以修改。
+当数据变化时，图形也立即重新生成。
+
+2. Howler
+Howler.js一个是JS库，通过默认方式运行在网页音频API上，当浏览器不支持时退回到HTML5音频。为了保证跨浏览器的兼容性，它允许接收多种文件格式。
+该库能同时缓存和播放多个声音，还有循环播放功能，淡入淡出效果和标准的多媒体控制功能。

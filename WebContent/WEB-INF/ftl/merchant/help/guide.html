@@ -1,0 +1,89 @@
+<#import "/spring.ftl" as spring />
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"]/> 
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" /> 
+<#include "/WEB-INF/ftl/merchant/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="${staticFileRoot}/merchant/css/basecommon.css?${staticFileVer}" />
+<link rel="stylesheet" type="text/css" href="${staticFileRoot}/merchant/css/baseouter.css?${staticFileVer}" />
+<style type="text/css">
+ul{
+	margin-left: 0px;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="content">
+
+		<div id="wrap-all">
+			
+			<div id="main" class="inner">
+				<div class="page_navbar">
+					<div class="page-navbar-warp">
+						<div class="title">
+							<h3>
+								<a href="<@l '/merchant/help/guide' />"> <i class="icon-book mr_10"></i>用户指南
+								</a>
+							</h3>
+						</div>
+					</div>
+				</div>
+				<div class="comment-content-panel guide-panel"
+					data-ng-controller="home_guide_ctrl">
+					<div class="content-container">
+						<div class="content">
+							<div class="content-wrapper">
+
+								<div class="content-title">热门问题</div>
+								<ul class="guide-list">
+								<#if articlePage.pageList?? && articlePage.pageList?size gt 0>
+									<#list articlePage.pageList as article>
+									<li><a href="<@l '/merchant/help/guide/detail/${article.articleId}' />">
+										<i class="icon-angle-right"></i>${article.title}</a></li>
+									</#list>
+								</#if>
+								</ul>
+
+							</div>
+						</div>
+						<div class="sidebar">
+		 					<div class="sidebar-widget">
+								<h4>搜索</h4>
+								<div class="input-group" wt-enter="js_search()">
+									<input type="text" ng-model="keywords"
+										class="form-control col-lg-6" wt-enter="js_search()" /> <span
+										class="input-group-btn">
+										<button class="btn btn-success" type="button"
+											ng-click="js_search()">搜索</button>
+									</span>
+								</div>
+							</div> 
+							<div class="sidebar-widget">
+								<h4>分类浏览</h4>
+								<ul>
+									<#if articleCatList?? && articleCatList?size gt 0>
+										<#list articleCatList as articleCat>
+											<li><a href="<@l '/merchant/help/guide/cat/${articleCat.code}' />"> ${articleCat.cnValue}</a></li>
+										</#list>
+									</#if>
+								</ul>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+
+<content tag="beforeBodyEnd">
+</content>
+<content tag="help">cur</content>
+</body>
+</html>

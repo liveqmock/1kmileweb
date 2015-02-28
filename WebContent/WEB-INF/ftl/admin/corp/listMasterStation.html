@@ -1,0 +1,78 @@
+<#import "/spring.ftl" as spring /> 
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+
+	<div id="content">
+
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="<@l '/admin/index'/>" title="首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a> 
+				<a href="javascript:" class="current">合作商管理</a>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="widget-box">
+				<div class="widget-title">
+					<span class="icon"> <i class="icon-th"></i>
+					</span>
+					<h5>合作商管理</h5>
+					<span class="label label-info">Featured</span>
+				</div>
+				<div class="widget-content">
+           		                	    
+		          <div class="controls">
+		          	  <a href="<@l '/admin/corp/addMasterStation'/>" class="btn btn-info">新增合作商</a>
+		          	 <!--  <button class="btn btn-success" id="toUpdate">修改</button> -->
+		          	  <span>点击合作商名称可查看详细信息</span>
+		          </div>
+		          <hr/>
+				
+					<table class="table table-bordered table-striped with-check">
+						<thead>
+							<tr>
+								<th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
+								<th>合作商编码</th>
+								<th>合作商名称</th>
+								<th>英文简称</th>
+								<th>签约时间</th>
+								<th>联系方式</th>
+								<th>状态</th>
+							</tr>
+						</thead>
+						<tbody>
+							<#if masterStationList?? && masterStationList?size gt 0>
+							<#list masterStationList as masterStation>
+							<tr>
+								<td><input type="checkbox"/></td>
+								<td>${masterStation.stationId}</td>
+								<td><a href="<@l '/admin/corp/updateMasterStation?stationId=${masterStation.stationId}'/>">${masterStation.stationName}</a></td>
+								<td>${masterStation.stationShortName}</td>
+								<td>${masterStation.contractTime?string('yyyy-MM-dd')}</td>
+								<td>${masterStation.fixphone}</td>
+								<td>${masterStation.statusDesc}</td>
+							</tr>
+							</#list>
+							</#if>
+						</tbody>
+					</table>
+					
+				</div>
+			</div>
+
+		</div>
+		<!-- container-fluid结束 -->
+	</div>
+	<!-- content结束 -->
+
+<content tag="beforeBodyEnd">
+<script src="${staticFileRoot}/admin/js/corp/listMasterStation.js"></script>
+</content>
+<content tag="corp">active</content>
+</body>
+</html>

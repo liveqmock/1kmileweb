@@ -1,0 +1,82 @@
+<#import "/spring.ftl" as spring /> 
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"] />
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<#include "/WEB-INF/ftl/admin/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="${staticFileRoot}/plugin/zTree/css/zTreeStyle/zTreeStyle.css?${staticFileVer}" />
+<link rel="stylesheet" href="${staticFileRoot}/plugin/jquery/charts/easy-pie-chart/jquery.easy-pie-chart.css?${staticFileVer}" />
+</head>
+<body>
+
+	<div id="content">
+
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="<@l '/admin/index'/>" title="首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a> 
+				<a href="javascript:">交易管理</a>
+				<a href="javascript:" class="current">物流交易</a>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+      		
+      		<div class="span3">
+				<#include "/WEB-INF/ftl/admin/corp/shared/corpStructTreeBox.html" />
+			</div>
+			
+			<div class="span9">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-th"></i>
+						</span>
+						<h5>物流交易</h5>
+						<span class="label label-info">Featured</span>
+					</div>
+					<div class="widget-content">
+						<div class="row-fluid">
+							<div class="span4">
+								<div class="easy-pie-chart">
+									<div class="number transactions"  data-percent="55"><span>55</span>%</div>
+									<a class="title" href="#">交易成功率 <i class="m-icon-swapright"></i></a>
+								</div>
+							</div>
+							<div class="margin-bottom-10 visible-phone"></div>
+							<div class="span4">
+								<div class="easy-pie-chart">
+									<div class="number visits"  data-percent="85"><span>+85</span>%</div>
+									<a class="title" href="#">好评率 <i class="m-icon-swapright"></i></a>
+								</div>
+							</div>
+							<div class="margin-bottom-10 visible-phone"></div>
+							<div class="span4">
+								<div class="easy-pie-chart">
+									<div class="number bounce"  data-percent="46"><span>-46</span>%</div>
+									<a class="title" href="#">Bounce <i class="m-icon-swapright"></i></a>
+								</div>
+							</div>
+						</div>
+						
+	            	</div>
+				</div>
+				
+			</div>
+			<!-- span8结束 -->
+			</div>
+			<!-- row-fluid结束 -->	
+		</div>
+		<!-- container-fluid结束 -->
+	</div>
+	<!-- content结束 -->
+
+<content tag="beforeBodyEnd">
+	<script src="${staticFileRoot}/plugin/zTree/js/jquery.ztree.core-3.5.min.js?${staticFileVer}"></script>
+	<script src="${staticFileRoot}/plugin/jquery/charts/easy-pie-chart/jquery.easy-pie-chart.js?${staticFileVer}"></script>
+	<script src="${staticFileRoot}/admin/js/transaction/listExpressTransaction.js?${staticFileVer}"></script> 
+</content>
+<content tag="transaction">active</content>
+</body>
+</html>

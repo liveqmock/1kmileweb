@@ -1,0 +1,57 @@
+<#import "/spring.ftl" as spring />
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body>
+
+	<div class="wrapper loginbox">
+		<div class="loginpanel">
+			<span class="loginicon"></span>
+			<div class="loginform">
+				<form action="<@l '/merchant/login'/>" method="post">
+					<#if returnURL??>
+						<input type="hidden" name="returnURL" value="${returnURL}" /> 
+					</#if>
+					<ul>
+						<li>
+							<label></label>
+							<#if message??>
+							<p class="tips error"><i></i><span>${message}</span></p>
+							</#if>
+						</li>
+						<li>
+							<label>用户名:</label>
+							<input type="text" name="account" value=""/>
+						</li>
+						<li>
+							<label>密&#12288;码:</label>
+							<input type="password" name="password" value=""/>
+						</li>
+						<!-- 
+						<li class="verify">
+							<label>验证码:</label>
+							<input type="text" name="verifycode" value=""/>
+							<a class="verifycode" href="javascript:;">
+								<img src="${staticFileRoot}/temp/verifycode.jpg" alt="" />
+							</a>
+							<a class="changeverifycode" href="javascript:;">看不清换一张</a>
+							<p class="tips error"><i></i><span>验证码输入错误</span></p>
+						</li>
+						 -->
+						<li>
+							<label></label>
+							<!-- <a class="loginbtn" href="#"></a> -->
+							<input type="submit" class="loginbtn" value="">
+							<a class="forgetpsw" href="#">忘记密码</a>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+	
+</body>
+</html>

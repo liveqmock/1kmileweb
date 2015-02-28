@@ -1,0 +1,75 @@
+<#import "/spring.ftl" as spring /> 
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<!doctype html>
+<html>
+<head>
+<style type="text/css">
+#chartdiv {
+	background-color: #282828;
+	width : 100%;
+	height : 500px;
+	font-size : 11px;
+}
+</style>
+</head>
+
+<body>
+
+	<!--main-container-part -->
+	<div id="content">
+	
+		<!--breadcrumbs-->
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="javascript:" title="回到首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a>
+			</div>
+		</div>
+		<!--End-breadcrumbs-->
+		
+		<div class="container-fluid">
+
+			<div class="quick-actions_homepage">
+				<ul class="quick-actions">
+	              <li class="bg_lo"> <a href="#"> <i class="icon-home"></i>首页 </a> </li>
+	              <li class="bg_lb span3"> <a href="<@l '/admin/corp/listCorpStruct'/>"> <i class="icon-sitemap"></i> 组织管理</a> </li>
+	              <li class="bg_lg"> <a href="#"> <i class="icon-money"></i> 交易管理</a> </li>
+				  <li class="bg_ls"> <a href="<@l '/admin/article/list' />"> <i class="icon-book"></i> 文章管理 </a> </li>
+	              <li class="bg_lo"> <a href="#"> <i class="icon-lock"></i> 权限管理 </a> </li>
+	              <li class="bg_lb"> <a href="<@l '/admin/data/serverFiles'/>" target="_blank"> <i class="icon-folder-open"></i>文件管理 </a> </li>
+	              <li class="bg_lg"> <a href="<@l '/admin/profile/setting'/>"> <i class="icon-user"></i> 个人设置</a> </li>
+	              <li class="bg_ls"> <a href="#"> <i class="icon-calendar"></i> 我的任务 </a> </li>
+	              <li class="bg_lo"> <a href="#"> <i class="icon-envelope-alt"></i>我的消息 </a> </li>
+	              
+	            <!--   <li class="bg_lg"> <a href="#"> <i class="icon-bar-chart"></i> icon-graph </a> </li>
+	              <li class="bg_lg"> <a href="#"> <i class="icon-dashboard"></i> icon-Dashboard </a> </li>
+	              <li class="bg_ls"> <a href="#"> <i class="icon-upload-alt"></i> 上传 </a> </li>
+	              <li class="bg_lb"> <a href="#"> <i class="icon-download"></i> 下载 </a> </li>
+	              <li class="bg_lg"> <a href="#"> <i class="icon-tasks"></i> icon-cabinet</a> </li>
+	             <li class="bg_lo"> <a href="#"> <i class="icon-facetime-video"></i>视频管理 </a> </li>
+	              <li class="bg_ly"> <a href="#"> <i class="icon-external-link"></i> 友情链接 </a> </li> -->
+				</ul>
+			</div>
+			
+			<div class="widget-box">
+				<div class="widget-title">
+					<span class="icon"> <i class="icon-th"></i></span>
+					<h5>站点分布图</h5>
+					<span class="label label-info">Featured</span>
+				</div>
+				<div class="widget-content">
+				  	<div id="chartdiv"></div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<!--end-main-container-part -->
+	
+<content tag="beforeBodyEnd">
+	<#include "/WEB-INF/ftl/shared/amcharts-js.html" />
+	<script type="text/javascript" src="${staticFileRoot}/admin/js/index/index.js?${staticFileVer}"></script>
+</content>
+<content tag="home">active</content>
+</body>
+</html>

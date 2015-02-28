@@ -1,0 +1,98 @@
+<#import "/spring.ftl" as spring /> 
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"]/>
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<#include "/WEB-INF/ftl/admin/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+
+	<div id="content">
+
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="<@l '/admin/index'/>" title="首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a> 
+				<a href="javascript:" class="current">我的信息</a>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="widget-box">
+				<div class="widget-title">
+					<span class="icon"> <i class="icon-th"></i>
+					</span>
+					<h5>我的信息</h5>
+					<span class="label label-info">Featured</span>
+				</div>
+				<div class="widget-content">
+				
+					<div class="tabbable tabbable-custom tabbable-full-width">
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#tab_1_1" data-toggle="tab">个人设置</a></li>
+							<li><a href="<@l '/admin/profile/accountInfo'/>">账号信息</a></li>
+							<li><a href="<@l '/admin/profile/updatePwd'/>">修改密码</a></li>
+						</ul>
+						<div class="tab-content">
+							<!--合作商 -->
+							<div class="tab-pane row-fluid active" id="tab_1_1">
+								<form class="form-horizontal">
+						            <div class="control-group">
+						              <label class="control-label">站点编码 :</label>
+						              <div class="controls">
+						                <span>asdf a </span>
+						              </div>
+						            </div>
+						            <div class="control-group">
+						              <label class="control-label">站点英文简称 :</label>
+						              <div class="controls">
+						                222
+						              </div>
+						            </div>
+						            <div class="control-group">
+						              <label class="control-label">签约时间 : </label>
+						              <div class="controls">
+						                <input type="password" class="span11" placeholder="Enter Password">
+						              </div>
+						            </div>
+						            <div class="control-group">
+						              <label class="control-label">联系方式(固话):</label>
+						              <div class="controls">
+						                <input type="text" class="span11" placeholder="Company name">
+						              </div>
+						            </div>
+						            <div class="control-group">
+						              <label class="control-label">联系方式(移动电话):</label>
+						              <div class="controls">
+						                <input type="text" class="span11">
+						                <span class="help-block">Description field</span> </div>
+						            </div>
+						            <div class="control-group">
+						              <label class="control-label">站点状态:</label>
+						              <div class="controls">
+						                <textarea class="span11"></textarea>
+						              </div>
+						            </div>
+						            <div class="form-actions">
+						              <button type="button" class="btn btn-success">编辑</button>
+						            </div>
+						          </form>
+							</div>
+							
+						</div>
+					</div>
+					
+				</div>
+			</div>
+
+		</div>
+		<!-- container-fluid结束 -->
+	</div>
+	<!-- content结束 -->
+
+<content tag="beforeBodyEnd">
+</content>
+<content tag="corp">active</content>
+</body>
+</html>

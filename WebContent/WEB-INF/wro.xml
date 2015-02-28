@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups xmlns="http://www.isdc.ro/wro">
+
+    <group name="front-global-v1-merge-min">
+        <css>/static/front/css/common.css</css>
+        <css>/static/front/css/main.css</css>
+        <js>/static/front/js/jquery-1.7.1.js</js>
+        <js>/static/front/main.js</js>
+    </group> 
+    
+</groups>

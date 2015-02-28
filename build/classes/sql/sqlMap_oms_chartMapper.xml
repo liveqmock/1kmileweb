@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="chartMapper">
+
+	<select id="queryChildStationProvinceChart">
+		<![CDATA[
+		SELECT
+			a.address_name AS "provinceName",
+			p.number AS "provinceNumber"
+		FROM
+			oms_t_address a,
+			(
+				SELECT
+					s.province_code AS "provinceCode",
+					count(s.province_code) AS "number"
+				FROM
+					oms_t_child_station s
+				WHERE
+					s.station_id IN (
+						SELECT
+							cssr.child_station_id AS "stationId"
+						FROM
+							oms_t_child_station_struct_real cssr
+						WHERE
+							cssr.corp_struct_id IN (
+								SELECT
+									cs.struct_id AS "structId"
+								FROM
+									oms_t_corp_struct cs
+								WHERE
+									cs.type = :corpStructType
+							)
+					)
+				GROUP BY
+					s.province_code
+			) AS p
+		WHERE
+			a.address_code = p.provinceCode
+		]]>
+	</select>
+	
+	<select id="queryPickupTime">
+		<![CDATA[
+		SELECT
+			p.out_time AS "pickupTime", COUNT(p.package_id) AS "pickupNo"
+		FROM
+			epu_t_package p
+		WHERE
+			<#if stationId?? && stationId != -1>
+				p.station_id = :stationId
+			<#else>
+				p.station_id = -1
+			</#if>
+			AND p.package_status = :packageStatus
+		GROUP BY p.out_time
+		]]>
+	</select>
+	
+	<select id="queryInStationTime">
+		<![CDATA[
+		SELECT
+			p.in_time AS "inStationTime", COUNT(p.package_id) AS "inStationNo"
+		FROM
+			epu_t_package p
+		WHERE
+			<#if stationId?? && stationId != -1>
+				p.station_id = :stationId
+			<#else>
+				p.station_id = -1
+			</#if>
+			AND p.package_status = :packageStatus
+		GROUP BY p.in_time
+		]]>
+	</select>
+
+</sqlMap>

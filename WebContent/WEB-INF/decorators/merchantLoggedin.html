@@ -1,0 +1,74 @@
+<#assign decorator=JspTaglibs["http://www.opensymphony.com/sitemesh/decorator"]>
+<#include "../ftl/merchant/macros/helpers.ftl" />
+<!doctype html>
+<html>
+
+	<head>
+		<#include "./merchantShared/commonHeader.html"/>
+		${head}
+	</head>
+
+	<body>
+	
+	<div class="header">
+		<div class="wrapper headbox">
+			<div class="logoarea">
+				<a href="#" title="易提站"><img src="${staticFileRoot}/merchant/images/logo.png" alt="易提站" /></a>
+			</div>
+			<div class="welcomeinfo">
+				<p>${sessionUser.account!""}您好，欢迎光临易提站平台！</p>
+			</div>
+			<div class="logout">
+				<p><a class="guide" href="#">查看操作手册</a><a href="<@l '/merchant/logout'/>">退出</a><span>|</span><a href="#">修改密码</a></p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="wrapper mainbody clearfix">
+		<div class="nav clearfix">
+			<ul>
+				<li class="<@decorator.getProperty property='page.home'/>">
+					<a class="first" href="<@l '/merchant/index' />"><span>首页</span></a>					
+				</li>
+				<li class="<@decorator.getProperty property='page.express'/>">
+					<a href="#"><span>物流服务<i></i></span></a>
+					<dl>
+						<dd><a href="<@l '/merchant/receiveGoods/inStation' />">包裹入站</a></dd>
+						<dd><a href="<@l '/merchant/receiveGoods/pickupGoods' />">顾客提货</a></dd>
+						<!-- <dd><a href="<@l '/merchant/receiveGoods/overtimeReturn' />">超期退货</a></dd> -->
+					</dl>
+				</li>
+				<li class="<@decorator.getProperty property='page.o2o'/>">
+					<a href="#"><span>增值服务<i></i></span></a>
+					<dl>
+						<dd><a href="<@l '/merchant/o2o/salePromotion' />">促销活动</a></dd>						
+					</dl>
+				</li>
+				<li class="<@decorator.getProperty property='page.transaction'/>">
+					<a href="#"><span>交易统计<i></i></span></a>
+					<dl>
+						<dd><a href="<@l '/merchant/transaction/list' />">交易记录</a></dd>
+						<dd><a href="<@l '/merchant/analysis/expressTime' />">时间段分析</a></dd>
+						<!-- <dd><a href="<@l '/merchant/gain/listGain' />">查看收益</a></dd>
+						<dd><a href="#">收益分析</a></dd> -->
+					</dl>
+				</li>
+				<li class="<@decorator.getProperty property='page.help'/>">
+					<a class="last" href="#"><span>帮助中心<i></i></span></a>
+					<dl>
+						<dd><a href="<@l '/merchant/help/guide' />">用户指南</a></dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+
+		
+	${body}
+	</div>
+	   
+	<#include "./merchantShared/commonFooter.html"/>
+	    
+	<@decorator.getProperty property="page.beforeBodyEnd"/>
+	    
+	</body>
+</html>

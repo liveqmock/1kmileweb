@@ -1,0 +1,131 @@
+<#import "/spring.ftl" as spring /> 
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"] />
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<#include "/WEB-INF/ftl/admin/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="${staticFileRoot}/plugin/zTree/css/zTreeStyle/zTreeStyle.css?${staticFileVer}" />
+</head>
+<body>
+
+	<div id="content">
+
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="<@l '/admin/index'/>" title="首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a> 
+				<a href="javascript:" class="current">子站点管理</a>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row-fluid">
+      		
+      		<div class="span3">
+				<#include "/WEB-INF/ftl/admin/corp/shared/corpStructTreeBox.html" />
+			</div>
+			
+			<div class="span9">
+				<div class="widget-box">
+					<div class="widget-title">
+						<span class="icon"> <i class="icon-th"></i>
+						</span>
+						<h5>子站点管理</h5>
+						<span class="label label-info">Featured</span>
+					</div>
+					<div class="widget-content">
+	            	    
+	           		    <div class="controls">
+		           		    <table class="table table-bordered table-invoice-full">
+			           		    <tbody>
+				           		    <tr>
+				           		    	<td width="10px">省</td>
+				           		    	<td width="80px">
+				           		    		<select id="province" class="select2">
+							                  <option value="-1">请选择</option>
+							                  <#if provinceList?? && provinceList?size gt 0>
+							                  <#list provinceList as province>
+							                  <option value="${province.addressCode}">${province.addressName}</option>
+							                  </#list>
+							                  </#if>
+							                </select>
+				           		    	</td>
+				           		    	<td width="10px">市</td>
+				           		    	<td width="80px">
+				           		    		<select id="city" class="select2">
+							                  <option value="-1">请选择</option>
+							                </select>
+				           		    	</td>
+				           		    	<td width="10px">区</td>
+				           		    	<td width="80px">
+				           		    		<select id="district" class="select2">
+							                  <option value="-1">请选择</option>
+							                </select>
+				           		    	</td>
+				           		    </tr>
+			           		    </tbody>
+		           		    </table>
+	           		    </div>
+	           		                	    
+	            	    <div class="controls">
+	            	        <div class="input-prepend">
+								<span class="add-on">名称</span> 
+		           		        <input type="text" class="span8" placeholder="易提站名称" />
+			                </div>
+	            	        <div class="input-prepend">
+								<span class="add-on">编码</span> 
+		           		        <input type="text" class="span8" placeholder="易提站编码" />
+			                </div>
+			                <button class="btn btn-primary pull-right"><i class="icon-search icon-white">查询</i></button>
+			            </div>
+			          <hr />
+			          
+			          <div class="controls">
+			          	  <!-- <button class="btn btn-primary">申请启用</button> -->
+			          	  <a href="<@l '/admin/corp/addChildStation'/>" class="btn btn-info">新增站点</a>
+			          	  <a href="<@l '/admin/corp/importChildStation'/>" class="btn btn-primary">导入站点</a>
+			          	  <button class="btn btn-danger">删除</button>
+			          	  <!-- <button class="btn btn-success">修改</button> -->
+			          	  <span>点击易提站名称可查看站点信息</span>
+			          </div>
+			          <hr/>
+					
+						<table class="table table-bordered table-striped with-check">
+							<thead>
+								<tr>
+									<th><input type="checkbox" id="title-table-checkbox" name="title-table-checkbox" /></th>
+									<th>易提站编码</th>
+									<th>易提站名称</th>
+									<th>地址</th>
+									<th>创建时间</th>
+									<th>启用状态</th>
+								</tr>
+							</thead>
+							<tbody id="tableChildStationList">
+							</tbody>
+						</table>
+						
+						<div class="pagination pagination-right">
+						</div>
+						
+					</div>
+				</div>
+				
+			</div>
+			<!-- span8结束 -->
+			</div>
+			<!-- row-fluid结束 -->	
+		</div>
+		<!-- container-fluid结束 -->
+	</div>
+	<!-- content结束 -->
+
+<content tag="beforeBodyEnd">
+	<script src="${staticFileRoot}/oms/js/omsAddress.js?${staticFileVer}"></script> 
+	<script src="${staticFileRoot}/plugin/zTree/js/jquery.ztree.core-3.5.min.js?${staticFileVer}"></script>
+	<script src="${staticFileRoot}/admin/js/corp/listChildStation.js?${staticFileVer}"></script> 
+</content>
+<content tag="corp">active</content>
+</body>
+</html>

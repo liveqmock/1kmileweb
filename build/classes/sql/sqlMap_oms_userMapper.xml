@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="userMapper">
+	
+	<insert id="insertUser">
+		<![CDATA[
+		INSERT
+		INTO oms_t_user(account, password, real_name, type, email, cellphone, status, create_time)
+		VALUES (:account, :password, :realName, :type, :email, :cellphone, :status, :createTime)
+		]]>	
+	</insert>
+	
+	<update id="updateUserById">
+		<![CDATA[
+		UPDATE
+			oms_t_user u
+		SET
+			u.real_name = :realName,
+			u.email = :email, 
+			u.cellphone = :cellphone
+		WHERE
+			<#if userId?? && userId != -1>
+				u.user_id = :userId
+			<#else>
+				u.user_id = -1
+			</#if>
+		]]>	
+	</update>
+	
+	<update id="updateUserPwdById">
+		<![CDATA[
+		UPDATE
+			oms_t_user u
+		SET
+			u.password = :newPassword
+		WHERE
+			<#if userId?? && userId != -1>
+				u.user_id = :userId
+			<#else>
+				u.user_id = -1
+			</#if>
+		AND u.password = :oldPassword
+		]]>	
+	</update>
+	
+	<select id="queryUserById">
+		<![CDATA[
+		SELECT
+			c.user_id AS "userId",
+			c.account AS "account",
+			c.token AS "token",
+			c.real_name AS "realName",
+			c.type AS "userType",
+			c.email AS "email",
+			c.cellphone AS "cellphone",
+			c.status AS "status"
+		FROM
+			oms_t_user c
+		WHERE
+			<#if userId?? && userId != -1>
+				c.user_id = :userId
+			<#else>
+				c.user_id = -1
+			</#if>
+		]]>	
+	</select>
+	
+	<select id="queryUserByStructId">
+		<![CDATA[
+		SELECT
+			usr.corp_struct_id AS "structId",
+			c.user_id AS "userId",
+			c.account AS "account",
+			c.token AS "token",
+			c.real_name AS "realName",
+			c.type AS "userType",
+			c.email AS "email",
+			c.cellphone AS "cellphone",
+			c.status AS "status"
+		FROM
+			oms_t_user c, oms_t_user_struct_real usr
+		WHERE
+			<#if structId?? && structId != -1>
+				c.user_id = usr.user_id
+				AND usr.corp_struct_id = :structId
+			<#else>
+				c.user_id = usr.user_id
+				AND usr.corp_struct_id = -1
+			</#if>
+		]]>	
+	</select>
+	
+	<select id="queryUserLogin">
+		<![CDATA[
+		SELECT
+			usr.corp_struct_id AS "structId",
+			c.user_id AS "userId",
+			c.account AS "account",
+			c.token AS "token",
+			c.real_name AS "realName",
+			c.type AS "type",
+			c.email AS "email",
+			c.cellphone AS "cellphone",
+			c.status AS "status"
+		FROM
+			oms_t_user c
+		LEFT JOIN oms_t_user_struct_real usr ON c.user_id = usr.user_id
+		WHERE
+			c.account = :account
+		AND c.password = :password
+		]]>
+	</select>
+	
+</sqlMap>

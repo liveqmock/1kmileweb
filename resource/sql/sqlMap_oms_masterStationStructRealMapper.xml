@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="masterStationStructRealMapper">
+
+	<insert id="insertMasterStationStructReal">
+		<![CDATA[
+		INSERT INTO oms_t_master_station_struct_real(master_station_id, corp_struct_id)
+		SELECT
+			MAX(ms.station_id) AS "masterStationId", MAX(cs.struct_id) AS "corpStructId" 
+		FROM
+			oms_t_master_station ms, oms_t_corp_struct cs
+		]]>
+	</insert>
+	
+</sqlMap>

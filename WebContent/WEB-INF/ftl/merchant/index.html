@@ -1,0 +1,94 @@
+<#import "/spring.ftl" as spring />
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body>
+		<div class="path">
+			<span>首页</span>
+		</div>
+		
+		<div class="content">
+<!-- 			<div class="conditionbox">
+				<ul>
+					<li><label class="quicktool">快捷功能</label></li>
+					<li>
+						<div class="iptbox">
+							<input class="ipt250 gray" type="" value="快递单号"/>
+							<p class="tips error"><i></i><span>10到12位数字</span></p>
+						</div>
+						<a class="sbtn btn-c" href="javascript:void(0);"><span>快速入站</span></a>
+					</li>								
+				</ul>
+			</div> -->
+			<div class="infopanel">
+				<div class="box login-info">
+					<p class="boxtitle">
+						登陆信息
+					</p>
+					<div class="boxcontent">
+						<div class="incomeinfo">
+							<dl>
+								<dt>累计收益：</dt>
+								<dd><strong>5.36万元</strong></dd>
+							</dl>
+							<dl>
+								<dt>本月收益：</dt>
+								<dd><strong>1500万元</strong></dd>
+							</dl>
+							<dl>
+								<dt>上次登陆：</dt>
+								<dd>2013-10-14</dd>
+							</dl>
+						</div>
+						<div class="contact">
+							<span>025-85960111</span>
+						</div>
+					</div>
+				</div>
+				<div class="box quickopr">
+					<div class="boxcontent">
+						<p>温馨提示：您可以点击以下按钮进行快捷操作</p>
+						<div class="quicklink">
+							<a class="bgrz" href="<@l '/merchant/receiveGoods/inStation'/>" title="包裹入站">包裹入站</a>
+							<a class="gkth" href="<@l '/merchant/receiveGoods/pickupGoods'/>" title="顾客提货">顾客提货</a>
+							<!-- <a class="rzcx" href="#" title="">入站查询</a>
+							<a class="txth" href="#" title="">提醒提货</a>
+							<a class="hkcz" href="#" title="">还款操作</a> -->
+						</div>						
+					</div>
+					<ul>
+						<li class="waitInStation">待入站</li>
+						<li class="waitPickup">待提货</li>
+						<!-- <li>待提醒（<a href="">59</a>）个</li>
+						<li>待还款（<a href="">59</a>）个</li> -->
+					</ul>
+				</div>
+				<div class="box sysann">
+					<p class="boxtitle">
+					    <span>常见问题</span>
+						<a class="more" href="#">更多 &gt;</a>
+					</p>
+					<div class="boxcontent">
+						<ul>
+							<li><i>•</i><a href="#" title="易提站操作手册在里面">易提站操作手册在里面...</a></li>
+							<li><i>•</i><a href="#" title="易提站操作手册在里面">易提站操作手册在里面...</a></li>
+							<li><i>•</i><a href="#" title="易提站操作手册在里面">易提站操作手册在里面...</a></li>
+							<li><i>•</i><a href="#" title="易提站操作手册在里面">易提站操作手册在里面...</a></li>
+							<li><i>•</i><a href="#" title="易提站操作手册在里面">易提站操作手册在里面...</a></li>
+							<li><i>•</i><a href="#" title="易提站操作手册在里面">易提站操作手册在里面...</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<content tag="beforeBodyEnd">
+	<script type="text/javascript" src="${staticFileRoot}/merchant/js/index/index.js"></script>
+</content>
+<content tag="home">cur</content>
+</body>
+</html>

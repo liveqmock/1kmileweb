@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sqlMap namespace="userStructRealMapper">
+	
+	<insert id="inserUserStructReal">
+		<![CDATA[
+		INSERT
+			INTO oms_t_user_struct_real(user_id, corp_struct_id)
+		SELECT
+			max(user_id) AS "userId", :corpStructId
+		FROM
+			oms_t_user u
+		]]>	
+	</insert>
+	
+	<update id="updateUserStructReal">
+		<![CDATA[
+		UPDATE
+			oms_t_user_struct_real usr
+		SET
+			usr.corp_struct_id = :corpStructId
+		WHERE
+			<#if userId?exists && userId != -1>
+				usr.user_id = :userId
+			<else>
+				urs.user_id = -1
+			</#if>
+		]]>	
+	</update>
+	
+	
+</sqlMap>

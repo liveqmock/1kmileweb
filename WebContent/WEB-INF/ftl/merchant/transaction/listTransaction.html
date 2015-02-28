@@ -1,0 +1,120 @@
+<#import "/spring.ftl" as spring />
+<#assign epuTagFront = JspTaglibs["/WEB-INF/epuTagFront.tld"] />
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" />
+<#include "/WEB-INF/ftl/merchant/macros/pager.ftl" />
+<!doctype html>
+<html>
+<head>
+</head>
+
+<body>
+
+		<div class="path">
+			<a href="<@l '/merchant/index'/>">首页</a>
+			<i>&gt;</i>
+			<span>交易统计</span>
+			<i>&gt;</i>
+			<span>交易记录</span>
+		</div>
+		
+		<div class="content">
+			<div class="conditionbox">
+				<form id="searchForm" action="<@l '/merchant/transaction/export' />" method="post">
+				<ul>
+					<li>
+						<label class="lb8">包裹状态：</label>
+						<div class="iptbox">
+							<div>
+								<div>
+									<select name="packageStatus">
+										<option value="00">待入站</option>
+										<option value="01">待提货</option>
+										<option value="02">交易成功</option>
+										<option value="03">交易关闭</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<!-- <a class="sbtn btn-c" href="javascript:void(0);"><span>查 询</span></a> -->
+					</li>
+				</ul>
+				</form>
+			</div>
+			<div class="btnbox">
+				<a class="sbtn btn-b exportAll" href="javascript:void(0);"><span>批量导出</span></a>
+			</div>
+			<div class="resultlist tablestyle1">
+				<table>
+					<thead>
+						<tr>
+							<th width="70">
+								<div class="chk"><input type="checkbox" />全选</div>
+							</th>
+							<th width="125"><div>快递单号</div></th>
+							<th width="200"><div>入站时间</div></th>
+							<th width="200"><div>提货时间</div></th>
+							<th width="90"><div>包裹状态</div></th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					    <#if page.pageList?? && page.pageList?size gt 0>
+							<#assign rows = 0 />
+							<#list page.pageList as mypackage>
+							<#assign rows = rows + 1>
+							<#if rows % 2 = 0>
+							<tr class="even">
+							<#else>
+							<tr>
+							</#if>
+								<td>
+									<input type="checkbox" />
+								</td>
+								<td><a href="<@l '/merchant/transaction/show/${mypackage.packageId}'/>" title="查看详情">${mypackage.expressNo}</a></td>
+								<td>
+								<#if mypackage.inTime??>
+									${mypackage.inTime}
+								<#else>
+									----
+								</#if>
+								</td>
+								<td>
+								<#if mypackage.outTime??>
+									${mypackage.outTime}
+								<#else>
+									----
+								</#if>
+								</td>
+								<td>${mypackage.packageStatusDesc}</td>
+								<td>
+								<p class="operation">
+									<#if mypackage.packageStatus == "00">
+										<a href="<@l '/merchant/receiveGoods/inStation'/>">入站</a>
+									<#elseif mypackage.packageStatus == "01">
+										<a href="<@l '/merchant/receiveGoods/pickupGoods'/>">提货</a>
+									<#elseif mypackage.packageStatus == "02" || mypackage.packageStatus == "03">
+										<a href="<@l '/merchant/transaction/show/${mypackage.packageId}'/>">详情</a>
+									</#if>
+								</p>
+								</td>
+							</tr>
+							</#list>
+						<#else>
+						   	无任何交易记录
+						</#if>
+					</tbody>
+				</table>
+			</div>
+			<div class="btnbox">
+				<a class="sbtn btn-b exportAll" href="javascript:void(0);"><span>批量导出</span></a>
+				<@pagerStyle1 page '/merchant/transaction/list' />
+			</div>			
+		</div>
+	</div>
+
+	<content tag="beforeBodyEnd">
+		<script type="text/javascript" src="${staticFileRoot}/merchant/js/transaction/listTransaction.js"></script>
+	</content>
+<content tag="transaction">cur</content>	
+</body>
+</html>

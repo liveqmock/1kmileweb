@@ -1,0 +1,21 @@
+page:
+  title: 1公里-易提站
+  keywords: 1公里,易提站
+  description: 1公里,易提站,物流最后一公里,最后一公里物流
+common:
+  cellphonelabel: 手机号码
+  fixphonelabel: 固定电话
+  captchalabel: 图片验证码
+org:
+  hibernate:
+    validator:
+      constraints:
+        NotEmpty:
+          message: 不能为空
+        NotBlank:
+          message: 不能为空
+javax:
+  validation:
+    constraints:
+      NotNull:
+        message: 不能为空

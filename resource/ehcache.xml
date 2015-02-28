@@ -1,0 +1,75 @@
+<ehcache updateCheck="false">
+	<!-- Sets the path to the directory where cache .data files are created.
+		
+		If the path is a Java System Property it is replaced by
+		its value in the running VM.
+		
+		The following properties are translated:
+		user.home - User's home directory
+		user.dir - User's current working directory
+		java.io.tmpdir - Default temp file path -->
+	<diskStore path="java.io.tmpdir" />
+	<!--Default Cache configuration. These will applied to caches programmatically created through
+		the CacheManager.
+		
+		The following attributes are required:
+		
+		maxElementsInMemory            - Sets the maximum number of objects that will be created in memory
+		eternal                        - Sets whether elements are eternal. If eternal,  timeouts are ignored and the
+		element is never expired.
+		overflowToDisk                 - Sets whether elements can overflow to disk when the in-memory cache
+		has reached the maxInMemory limit.
+		
+		The following attributes are optional:
+		timeToIdleSeconds              - Sets the time to idle for an element before it expires.
+		i.e. The maximum amount of time between accesses before an element expires
+		Is only used if the element is not eternal.
+		Optional attribute. A value of 0 means that an Element can idle for infinity.
+		The default value is 0.
+		timeToLiveSeconds              - Sets the time to live for an element before it expires.
+		i.e. The maximum time between creation time and when an element expires.
+		Is only used if the element is not eternal.
+		Optional attribute. A value of 0 means that and Element can live for infinity.
+		The default value is 0.
+		diskPersistent                 - Whether the disk store persists between restarts of the Virtual Machine.
+		The default value is false.
+		diskExpiryThreadIntervalSeconds- The number of seconds between runs of the disk expiry thread. The default value
+		is 120 seconds.
+	-->
+	<cache name="org.hibernate.cache.StandardQueryCache"
+		maxElementsInMemory="50" 
+		eternal="false" 
+		timeToIdleSeconds="3600"
+		timeToLiveSeconds="7200" 
+		overflowToDisk="true" />
+	<cache name="org.hibernate.cache.UpdateTimestampsCache"
+		  maxElementsInMemory="5000" 
+		  eternal="true" 
+		  overflowToDisk="true" />
+    <!--
+                  缺省的缓存策略。用来实现CacheManager.add(String cacheName)创建的缓存
+       maxElementsInMemory:  内存中最大允许存在的对象数量   
+       eternal: 设置缓存中的对象是否永远不过期  
+       overflowToDisk: 把溢出的对象存放到硬盘上  
+       timeToIdleSeconds: 指定缓存对象空闲多长时间就过期,过期的对象会被清除掉  
+       timeToLiveSeconds: 指定缓存对象总的存活时间  
+       diskPersistent: 当jvm结束是是否持久化对象,是否持久化磁盘缓存。当这个属性的值为true时，系统在初始化的时候会在磁盘中查找文件名为cache、名称
+                                                         后缀名为index的文件，如CACHE_FUNC.index
+       diskExpiryThreadIntervalSeconds: 指定专门用于清除过期对象的监听线程的轮询时间                                                   
+       memoryStoreEvictionPolicy: 内存存储与释放策略。有三个值：
+                                  LRU －least recently used
+                                  LFU －least frequently used
+                                  FIFO－first in first out, the oldest element by creation time
+
+     -->
+    <defaultCache maxElementsInMemory="10000" 
+        eternal="false"
+        timeToIdleSeconds="120" 
+        timeToLiveSeconds="120"
+        overflowToDisk="true" 
+        diskPersistent="false" 
+        diskExpiryThreadIntervalSeconds="120"
+        memoryStoreEvictionPolicy="LFU"
+        />
+	<!-- See http://ehcache.sourceforge.net/documentation/#mozTocId258426 for how to configure caching for your objects -->
+</ehcache>

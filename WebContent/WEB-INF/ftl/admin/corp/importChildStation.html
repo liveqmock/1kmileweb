@@ -1,0 +1,79 @@
+<#import "/spring.ftl" as spring />
+<#include "/WEB-INF/ftl/admin/macros/helpers.ftl" />
+<!doctype html>
+<html>
+<head>
+<link rel="stylesheet" href="${staticFileRoot}/plugin/zTree/css/zTreeStyle/zTreeStyle.css?${staticFileVer}" />
+</head>
+<body>
+
+	<div id="content">
+		<div id="content-header">
+			<div id="breadcrumb">
+				<a href="<@l '/admin/index'/>" title="首页" class="tip-bottom"><i
+					class="icon-home"></i> 首页</a> 
+				<a
+					href="<@l '/admin/corp/listChildStation'/>" title="子站点管理"
+					class="tip-bottom"> 子站点管理</a> 
+				<a href="javascript:" class="current">导入子站点</a>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+		
+			<div class="row-fluid">
+      		<div class="span3">
+				<#include "/WEB-INF/ftl/admin/corp/shared/corpStructTreeBox.html" />
+			</div>
+			
+			<div class="span9">
+			<div class="widget-box">
+				<div class="widget-title">
+					<span class="icon"> <i class="icon-th"></i>
+					</span>
+					<h5>导入子站点</h5>
+					<span class="label label-info">Featured</span>
+				</div>
+				<div class="widget-content nopadding">
+					<form id="childStationAddForm" action="<@l '/admin/corp/importChildStation'/>" method="post" enctype="multipart/form-data" class="form-horizontal">
+						<div class="control-group">
+							<label class="control-label">上级节点</label>
+							<div class="controls">
+								<input type="hidden" class="span6" id="structId" name="structId"/>
+								<input type="hidden" class="span6" id="structType" name="structType"/>
+								<input type="text" class="span6" id="structName"name="structName" readonly="readonly"/>
+								<span>请选择树节点</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label class="control-label">选择文件</label>
+							<div class="controls">
+								<input type="file" class="span6" name="file" class="uniform"/>
+							</div>
+						</div>
+						<div class="form-actions">
+							<button type="submit" class="btn btn-success">保存</button>
+							<a href="<@l '/admin/corp/listChildStation'/>" class="btn">返回</a>
+						</div>
+					</form>
+				</div>
+				<!-- widget-content结束 -->
+			</div>
+			<!-- widget-box结束 -->
+			</div>
+			</div>
+			<!-- row-fluid结束 -->
+		</div>
+		<!-- container-fluid结束 -->
+
+	</div>
+	<!-- content结束 -->
+
+<content tag="beforeBodyEnd">
+	<script src="${staticFileRoot}/oms/js/omsAddress.js?${staticFileVer}"></script> 
+	<script src="${staticFileRoot}/plugin/zTree/js/jquery.ztree.core-3.5.min.js?${staticFileVer}"></script>
+	<script src="${staticFileRoot}/admin/js/corp/importChildStation.js?${staticFileVer}"></script> 
+</content>
+<content tag="corp">active</content>
+</body>
+</html>

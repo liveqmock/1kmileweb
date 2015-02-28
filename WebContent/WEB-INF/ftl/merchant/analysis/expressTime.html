@@ -1,0 +1,30 @@
+<#import "/spring.ftl" as spring /> 
+<#include "/WEB-INF/ftl/merchant/macros/helpers.ftl" /> 
+<!doctype html>
+<html>
+<head>
+<style type="text/css">
+label{
+	display : inline;
+}
+</style>
+</head>
+
+<body>
+
+	<div class="path">
+		<a href="<@l '/merchant/index'/>">首页</a> <i>&gt;</i> <span>交易统计</span> <i>&gt;</i>
+		<span>时间段分析</span>
+	</div>
+
+	<div class="content">
+	    <div id="chartdiv" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+	</div>
+
+<content tag="beforeBodyEnd">
+	<#include "/WEB-INF/ftl/shared/amcharts-serial-js.html" />
+	<script type="text/javascript" src="${staticFileRoot}/merchant/js/analysis/expressTime.js?${staticFileVer}"></script>
+</content>
+<content tag="transaction">cur</content>	
+</body>
+</html>
